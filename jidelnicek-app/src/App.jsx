@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 
 /* ---------------------------------------------------------
    Databáze receptů — reálné recepty a odkazy z cookidoo.cz
@@ -46,6 +46,8 @@ const RECIPES = [
   { id: "sv6", cat: "svacina", name: "Bramborová kaše (malá porce)", kcal: 200, icon: "🥔", url: "https://cookidoo.cz/recipes/recipe/cs/r770148" },
 ];
 
+const RECIPE_BY_ID = Object.fromEntries(RECIPES.map((r) => [r.id, r]));
+
 const ACTIVITY = {
   zadna: { label: "Žádná aktivita", desc: "sedavé zaměstnání, minimum pohybu", factor: 1.2, icon: "🛋️" },
   mirna: { label: "Mírná aktivita", desc: "lehký pohyb / sport 1–3× týdně", factor: 1.375, icon: "🚶" },
@@ -66,6 +68,8 @@ const PLAN_5 = [
   { key: "vecere", cat: "vecere", label: "Večeře", icon: "🌙", share: 0.2 },
 ];
 
+const FAVORITES_KEY = "jidelnicek_oblibene";
+
 function toNum(v, fallback) {
   const n = parseFloat(v);
   return Number.isFinite(n) ? n : fallback;
@@ -76,15 +80,20 @@ function bmr({ gender, age, weight, height }) {
   return gender === "muz" ? base + 5 : base - 161;
 }
 
-function pickThree(cat, target, usedIds) {
+/* Vybere 3 recepty z kategorie nejblíže cílové kalorické hodnotě,
+   s možností posunu (offset) — díky tomu má každý den i každé
+   "zamíchání" jinou trojici variant, i když se drží stejného cíle. */
+function pickThree(cat, target, offset) {
   const pool = RECIPES.filter((r) => r.cat === cat);
   const sorted = [...pool].sort(
     (a, b) => Math.abs(a.kcal - target) - Math.abs(b.kcal - target)
   );
-  const fresh = sorted.filter((r) => !usedIds.has(r.id));
-  const ordered = [...fresh, ...sorted.filter((r) => usedIds.has(r.id))];
-  const chosen = ordered.slice(0, 3);
-  chosen.forEach((r) => usedIds.add(r.id));
+  const n = sorted.length;
+  const start = ((offset % n) + n) % n;
+  const chosen = [];
+  for (let i = 0; i < Math.min(3, n); i++) {
+    chosen.push(sorted[(start + i) % n]);
+  }
   return chosen;
 }
 
@@ -95,8 +104,6 @@ function portionNote(recipeKcal, target) {
   return clamped === 1 ? "odpovídá 1 porci" : `doporučená porce ${clamped}×`;
 }
 
-/* Číselné pole, které nezobrazuje nulu na začátku a dovolí
-   pole dočasně smazat, aniž by tam blikla 0 */
 function NumberField({ label, value, onChange, min, max, suffix }) {
   return (
     <div className="field">
@@ -107,8 +114,6 @@ function NumberField({ label, value, onChange, min, max, suffix }) {
           inputMode="numeric"
           pattern="[0-9]*"
           value={value}
-          min={min}
-          max={max}
           onChange={(e) => {
             const raw = e.target.value.replace(/[^\d]/g, "");
             const stripped = raw.replace(/^0+(?=\d)/, "");
@@ -125,6 +130,33 @@ function NumberField({ label, value, onChange, min, max, suffix }) {
   );
 }
 
+function Stepper({ label, value, onChange, min, max }) {
+  return (
+    <div className="field">
+      <label className="label">{label}</label>
+      <div className="stepper">
+        <button
+          type="button"
+          className="stepperBtn"
+          onClick={() => onChange(Math.max(min, value - 1))}
+          disabled={value <= min}
+        >
+          −
+        </button>
+        <span className="stepperValue">{value}</span>
+        <button
+          type="button"
+          className="stepperBtn"
+          onClick={() => onChange(Math.min(max, value + 1))}
+          disabled={value >= max}
+        >
+          +
+        </button>
+      </div>
+    </div>
+  );
+}
+
 export default function App() {
   const [form, setForm] = useState({
     gender: "zena",
@@ -133,35 +165,77 @@ export default function App() {
     height: "168",
     activity: "mirna",
     mealsPerDay: 3,
+    days: 3,
   });
   const [selections, setSelections] = useState({});
+  const [offsets, setOffsets] = useState({});
   const [showPlan, setShowPlan] = useState(false);
+  const [favorites, setFavorites] = useState([]);
+  const [showFavorites, setShowFavorites] = useState(false);
+
+  // Načtení oblíbených receptů z prohlížeče při startu
+  useEffect(() => {
+    try {
+      const saved = localStorage.getItem(FAVORITES_KEY);
+      if (saved) setFavorites(JSON.parse(saved));
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
+  const toggleFavorite = (id) => {
+    setFavorites((prev) => {
+      const next = prev.includes(id) ? prev.filter((f) => f !== id) : [...prev, id];
+      try {
+        localStorage.setItem(FAVORITES_KEY, JSON.stringify(next));
+      } catch {
+        /* ignore */
+      }
+      return next;
+    });
+  };
 
   const results = useMemo(() => {
     const base = bmr(form);
     const tdee = base * ACTIVITY[form.activity].factor;
     return { bmr: Math.round(base), tdee: Math.round(tdee) };
-  }, [form]);
+  }, [form.gender, form.age, form.weight, form.height, form.activity]);
 
-  const dayPlan = useMemo(() => {
-    const slots = form.mealsPerDay === 3 ? PLAN_3 : PLAN_5;
-    const used = new Set();
-    return slots.map((slot) => {
-      const target = Math.round(results.tdee * slot.share);
-      const options = pickThree(slot.cat, target, used);
-      return { ...slot, target, options };
-    });
-  }, [form.mealsPerDay, results.tdee]);
+  const slots = form.mealsPerDay === 3 ? PLAN_3 : PLAN_5;
+
+  // Vícedenní jídelníček — každý den + slot má svůj klíč, offset dne
+  // zajišťuje, že se dny přirozeně liší, i než cokoliv ručně zamícháš
+  const multiDayPlan = useMemo(() => {
+    const days = [];
+    for (let d = 0; d < form.days; d++) {
+      const daySlots = slots.map((slot) => {
+        const key = `day${d}-${slot.key}`;
+        const target = Math.round(results.tdee * slot.share);
+        const manualOffset = offsets[key] || 0;
+        const options = pickThree(slot.cat, target, d + manualOffset);
+        return { ...slot, key, target, options };
+      });
+      days.push({ dayIndex: d, slots: daySlots });
+    }
+    return days;
+  }, [form.days, form.mealsPerDay, results.tdee, offsets, slots]);
 
   const update = (key, value) => setForm((f) => ({ ...f, [key]: value }));
   const selectOption = (slotKey, recipeId) =>
     setSelections((s) => ({ ...s, [slotKey]: recipeId }));
+  const reshuffleSlot = (slotKey) =>
+    setOffsets((o) => ({ ...o, [slotKey]: (o[slotKey] || 0) + 3 }));
 
-  const totalSelectedKcal = dayPlan.reduce((sum, slot) => {
-    const chosenId = selections[slot.key] ?? slot.options[0]?.id;
-    const recipe = slot.options.find((r) => r.id === chosenId);
-    return sum + (recipe ? recipe.kcal : 0);
-  }, 0);
+  const dayTotal = (daySlots) =>
+    daySlots.reduce((sum, slot) => {
+      const chosenId = selections[slot.key] ?? slot.options[0]?.id;
+      const recipe = slot.options.find((r) => r.id === chosenId);
+      return sum + (recipe ? recipe.kcal : 0);
+    }, 0);
+
+  const favoriteRecipes = favorites
+    .map((id) => RECIPE_BY_ID[id])
+    .filter(Boolean);
 
   return (
     <div className="page">
@@ -175,8 +249,9 @@ export default function App() {
           <h1 className="title">Jídelníček na míru</h1>
           <p className="subtitle">
             Zadej pár údajů, spočítáme denní energetický příjem a poskládáme
-            jídelníček ze skutečných receptů z Cookidoo — proklikneš se rovnou
-            na konkrétní recept.
+            jídelníček ze skutečných receptů z Cookidoo na tolik dní, kolik
+            potřebuješ. Varianty se dají kdykoli zamíchat a oblíbené recepty
+            se ti uloží.
           </p>
         </div>
       </header>
@@ -208,30 +283,9 @@ export default function App() {
               </div>
             </div>
 
-            <NumberField
-              label="Věk"
-              value={form.age}
-              min={10}
-              max={100}
-              suffix="let"
-              onChange={(v) => update("age", v)}
-            />
-            <NumberField
-              label="Váha"
-              value={form.weight}
-              min={30}
-              max={250}
-              suffix="kg"
-              onChange={(v) => update("weight", v)}
-            />
-            <NumberField
-              label="Výška"
-              value={form.height}
-              min={100}
-              max={230}
-              suffix="cm"
-              onChange={(v) => update("height", v)}
-            />
+            <NumberField label="Věk" value={form.age} min={10} max={100} suffix="let" onChange={(v) => update("age", v)} />
+            <NumberField label="Váha" value={form.weight} min={30} max={250} suffix="kg" onChange={(v) => update("weight", v)} />
+            <NumberField label="Výška" value={form.height} min={100} max={230} suffix="cm" onChange={(v) => update("height", v)} />
 
             <div className="field fullRow">
               <label className="label">Úroveň aktivity</label>
@@ -266,12 +320,58 @@ export default function App() {
                 ))}
               </div>
             </div>
+
+            <div className="fullRow">
+              <Stepper
+                label="Počet dní jídelníčku"
+                value={form.days}
+                min={1}
+                max={7}
+                onChange={(v) => update("days", v)}
+              />
+            </div>
           </div>
 
           <button className="primaryBtn" onClick={() => setShowPlan(true)}>
             Spočítat a sestavit jídelníček ✨
           </button>
         </section>
+
+        {/* ---- OBLÍBENÉ ---- */}
+        {favoriteRecipes.length > 0 && (
+          <section className="card">
+            <div className="cardHeadRow" style={{ justifyContent: "space-between" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                <span className="stamp">♥</span>
+                <h2 className="cardTitle">Oblíbené recepty</h2>
+              </div>
+              <button className="linkBtn" onClick={() => setShowFavorites((s) => !s)}>
+                {showFavorites ? "Skrýt" : `Zobrazit (${favoriteRecipes.length})`}
+              </button>
+            </div>
+            {showFavorites && (
+              <div className="optionsGrid">
+                {favoriteRecipes.map((r) => (
+                  <div key={r.id} className="option">
+                    <div className="optionTop">
+                      <span className="optionIcon">{r.icon}</span>
+                      <button className="heartBtn active" onClick={() => toggleFavorite(r.id)}>
+                        ♥
+                      </button>
+                    </div>
+                    <div className="optionName">{r.name}</div>
+                    <div className="optionMeta">
+                      <span className="optionKcal">{r.kcal} kcal</span>
+                    </div>
+                    <a href={r.url} target="_blank" rel="noreferrer" className="cookidooLink">
+                      Otevřít recept na Cookidoo ↗
+                    </a>
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
+        )}
 
         {/* ---- VÝSLEDEK ---- */}
         {showPlan && (
@@ -289,67 +389,96 @@ export default function App() {
                 </div>
                 <div className="resultDivider" />
                 <div>
-                  <div className="resultLabel">Vybraný jídelníček</div>
-                  <div className="resultValue">{totalSelectedKcal} kcal</div>
+                  <div className="resultLabel">Počet dní</div>
+                  <div className="resultValue">{form.days}</div>
                 </div>
               </div>
             </section>
 
-            <section className="timeline">
-              {dayPlan.map((slot, idx) => {
-                const chosenId = selections[slot.key] ?? slot.options[0]?.id;
-                return (
-                  <div
-                    key={slot.key}
-                    className="mealCard"
-                    style={{ animationDelay: `${idx * 60}ms` }}
-                  >
-                    <div className="mealCardNotch" />
-                    <div className="mealHead">
-                      <span className="mealEmoji">{slot.icon}</span>
-                      <div>
-                        <h3 className="mealTitle">{slot.label}</h3>
-                        <span className="mealTarget">cíl ≈ {slot.target} kcal</span>
-                      </div>
-                    </div>
+            {multiDayPlan.map((day) => (
+              <section key={day.dayIndex} className="dayBlock">
+                <div className="dayHeadRow">
+                  <h2 className="dayTitle">Den {day.dayIndex + 1}</h2>
+                  <span className="dayTotal">{dayTotal(day.slots)} kcal celkem</span>
+                </div>
 
-                    <div className="optionsGrid">
-                      {slot.options.map((r) => {
-                        const active = chosenId === r.id;
-                        return (
-                          <div
-                            key={r.id}
-                            className={`option ${active ? "active" : ""}`}
-                            onClick={() => selectOption(slot.key, r.id)}
-                          >
-                            <div className="optionTop">
-                              <span className="optionIcon">{r.icon}</span>
-                              {active && <span className="checkMark">✓</span>}
-                            </div>
-                            <div className="optionName">{r.name}</div>
-                            <div className="optionMeta">
-                              <span className="optionKcal">{r.kcal} kcal</span>
-                              <span className="optionPortion">
-                                {portionNote(r.kcal, slot.target)}
-                              </span>
-                            </div>
-                            <a
-                              href={r.url}
-                              target="_blank"
-                              rel="noreferrer"
-                              onClick={(e) => e.stopPropagation()}
-                              className="cookidooLink"
-                            >
-                              Otevřít recept na Cookidoo ↗
-                            </a>
+                <div className="timeline">
+                  {day.slots.map((slot, idx) => {
+                    const chosenId = selections[slot.key] ?? slot.options[0]?.id;
+                    return (
+                      <div
+                        key={slot.key}
+                        className="mealCard"
+                        style={{ animationDelay: `${idx * 60}ms` }}
+                      >
+                        <div className="mealCardNotch" />
+                        <div className="mealHead">
+                          <span className="mealEmoji">{slot.icon}</span>
+                          <div style={{ flex: 1 }}>
+                            <h3 className="mealTitle">{slot.label}</h3>
+                            <span className="mealTarget">cíl ≈ {slot.target} kcal</span>
                           </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                );
-              })}
-            </section>
+                          <button
+                            className="shuffleBtn"
+                            onClick={() => reshuffleSlot(slot.key)}
+                            title="Nelíbí se ti tahle nabídka? Zamíchej jiné varianty."
+                          >
+                            🔀 Jiné varianty
+                          </button>
+                        </div>
+
+                        <div className="optionsGrid">
+                          {slot.options.map((r) => {
+                            const active = chosenId === r.id;
+                            const isFav = favorites.includes(r.id);
+                            return (
+                              <div
+                                key={r.id}
+                                className={`option ${active ? "active" : ""}`}
+                                onClick={() => selectOption(slot.key, r.id)}
+                              >
+                                <div className="optionTop">
+                                  <span className="optionIcon">{r.icon}</span>
+                                  <div style={{ display: "flex", gap: 6, alignItems: "center" }}>
+                                    <button
+                                      className={`heartBtn ${isFav ? "active" : ""}`}
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        toggleFavorite(r.id);
+                                      }}
+                                      title="Uložit mezi oblíbené"
+                                    >
+                                      ♥
+                                    </button>
+                                    {active && <span className="checkMark">✓</span>}
+                                  </div>
+                                </div>
+                                <div className="optionName">{r.name}</div>
+                                <div className="optionMeta">
+                                  <span className="optionKcal">{r.kcal} kcal</span>
+                                  <span className="optionPortion">
+                                    {portionNote(r.kcal, slot.target)}
+                                  </span>
+                                </div>
+                                <a
+                                  href={r.url}
+                                  target="_blank"
+                                  rel="noreferrer"
+                                  onClick={(e) => e.stopPropagation()}
+                                  className="cookidooLink"
+                                >
+                                  Otevřít recept na Cookidoo ↗
+                                </a>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              </section>
+            ))}
           </>
         )}
       </main>
@@ -358,7 +487,8 @@ export default function App() {
         Výpočet dle Mifflin–St Jeor rovnice. Odkazy vedou na konkrétní recepty
         na cookidoo.cz. Přímé API napojení na Cookidoo veřejně neexistuje, proto
         u receptů bez zveřejněné nutriční hodnoty je uvedená kalorická hodnota
-        orientační — přesná data uvidíš po přihlášení na Cookidoo.
+        orientační — přesná data uvidíš po přihlášení na Cookidoo. Oblíbené
+        recepty se ukládají jen v tomto prohlížeči na tomto zařízení.
       </footer>
     </div>
   );
@@ -470,6 +600,16 @@ const css = `
 }
 .cardTitle { font-family: 'Fraunces', serif; font-size: 23px; font-weight: 600; margin: 0; }
 
+.linkBtn {
+  border: none;
+  background: none;
+  color: var(--herb);
+  font-weight: 700;
+  font-size: 13px;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 .formGrid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
 .field { display: flex; flex-direction: column; gap: 8px; }
 .fullRow { grid-column: 1 / -1; }
@@ -506,6 +646,35 @@ const css = `
   color: var(--muted);
   font-weight: 500;
   pointer-events: none;
+}
+
+.stepper {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  border: 1.5px solid var(--line);
+  border-radius: 10px;
+  padding: 8px 16px;
+  width: fit-content;
+}
+.stepperBtn {
+  width: 30px;
+  height: 30px;
+  border-radius: 8px;
+  border: 1.5px solid var(--line);
+  background: #fff;
+  color: var(--herb);
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.stepperBtn:disabled { opacity: 0.35; cursor: not-allowed; }
+.stepperValue {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 17px;
+  font-weight: 700;
+  min-width: 20px;
+  text-align: center;
 }
 
 .toggleRow { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -585,6 +754,16 @@ const css = `
 .resultValue { font-family: 'IBM Plex Mono', monospace; font-size: 20px; font-weight: 700; }
 .resultValueBig { font-family: 'IBM Plex Mono', monospace; font-size: 32px; font-weight: 700; color: var(--saffron); }
 
+.dayBlock { display: flex; flex-direction: column; gap: 14px; }
+.dayHeadRow {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  padding: 0 4px;
+}
+.dayTitle { font-family: 'Fraunces', serif; font-size: 24px; font-weight: 700; margin: 0; }
+.dayTotal { font-family: 'IBM Plex Mono', monospace; font-size: 13px; color: var(--muted); }
+
 .timeline { display: flex; flex-direction: column; gap: 18px; }
 
 .mealCard {
@@ -623,6 +802,20 @@ const css = `
 .mealTitle { font-family: 'Fraunces', serif; font-size: 19px; font-weight: 600; margin: 0; }
 .mealTarget { font-family: 'IBM Plex Mono', monospace; font-size: 12px; color: var(--muted); }
 
+.shuffleBtn {
+  border: 1.5px solid var(--line);
+  background: #fff;
+  color: var(--herb);
+  font-size: 12px;
+  font-weight: 700;
+  padding: 8px 12px;
+  border-radius: 10px;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+.shuffleBtn:hover { border-color: var(--herb-light); background: rgba(58,90,67,0.06); }
+
 .optionsGrid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 12px; }
 .option {
   position: relative;
@@ -649,6 +842,18 @@ const css = `
   display: flex; align-items: center; justify-content: center;
   font-weight: 700;
 }
+.heartBtn {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 16px;
+  color: var(--line);
+  line-height: 1;
+  padding: 2px;
+  transition: color 0.15s, transform 0.15s;
+}
+.heartBtn:hover { transform: scale(1.15); }
+.heartBtn.active { color: var(--tomato); }
 .optionName { font-size: 14px; font-weight: 700; line-height: 1.35; }
 .optionMeta { display: flex; justify-content: space-between; align-items: center; }
 .optionKcal { font-family: 'IBM Plex Mono', monospace; font-size: 13px; font-weight: 700; color: var(--herb); }
@@ -680,5 +885,7 @@ const css = `
 @media (max-width: 520px) {
   .title { font-size: 34px; }
   .formGrid { grid-template-columns: 1fr; }
+  .mealHead { flex-wrap: wrap; }
+  .shuffleBtn { margin-left: 58px; }
 }
 `;
