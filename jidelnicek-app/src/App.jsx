@@ -1,4 +1,4 @@
-Kód 2
+const kod = 2;
 
 import React, { useState, useMemo, useEffect } from "react";
 
