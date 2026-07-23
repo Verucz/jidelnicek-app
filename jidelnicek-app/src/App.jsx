@@ -96,12 +96,22 @@ const CURATED = [
   { id: "s37", cat: "snidane", name: "Domácí proteinový chlebík", kcal: 220, icon: "🍞", url: "https://cookidoo.cz/recipes/recipe/cs/r347159" },
   { id: "s38", cat: "snidane", name: "Palačinky s tvarohem", kcal: 320, icon: "🥞", url: "https://cookidoo.cz/recipes/recipe/cs/r52523" },
   { id: "s39", cat: "snidane", name: "Palačinky (Crêpes)", kcal: 280, icon: "🥞", url: "https://cookidoo.cz/recipes/recipe/cs/r54963" },
-  { id: "s40", cat: "snidane", name: "Banánové lívance s malinami", kcal: 260, icon: "🍌", url: "https://cookidoo.cz/recipes/recipe/cs/r347156" },
+  { id: "s40", cat: "snidane", name: "Banánové lívance s malinami", kcal: 111, icon: "🍌", url: "https://cookidoo.cz/recipes/recipe/cs/r347156" },
   { id: "s41", cat: "snidane", name: "Celozrnné croissanty", kcal: 244, icon: "🥐", url: "https://cookidoo.cz/recipes/recipe/cs/r805591" },
   { id: "s42", cat: "snidane", name: "Jáhlová kaše s jablky a hruškami", kcal: 381, icon: "🍎", url: "https://cookidoo.cz/recipes/recipe/cs/r908166" },
   { id: "s43", cat: "snidane", name: "Jáhlová kaše s domácím arašídovým máslem", kcal: 300, icon: "🥣", url: "https://cookidoo.cz/recipes/recipe/cs/r133952" },
   { id: "s44", cat: "snidane", name: "Jáhlovo-maková kaše", kcal: 310, icon: "🥣", url: "https://cookidoo.cz/recipes/recipe/cs/r346630" },
   { id: "s45", cat: "snidane", name: "Quinoová kaše s kokosem a praženými mandlemi", kcal: 340, icon: "🥥", url: "https://cookidoo.cz/recipes/recipe/cs/r145260" },
+  { id: "s46", cat: "snidane", name: "Proteinový tvarohový chléb se semínky fenyklu a koriandru", kcal: 200, icon: "🍞", url: "https://cookidoo.cz/recipes/recipe/cs/r317153" },
+  { id: "s47", cat: "snidane", name: "Banánová krupicová kaše", kcal: 280, icon: "🍌", url: "https://cookidoo.cz/recipes/recipe/cs/r761193" },
+  { id: "s48", cat: "snidane", name: "Toust s avokádem a vejcem Benedikt", kcal: 370, icon: "🥑", url: "https://cookidoo.cz/recipes/recipe/cs/r548454" },
+  { id: "s49", cat: "snidane", name: "Veganské čočkové palačinky", kcal: 200, icon: "🥞", url: "https://cookidoo.cz/recipes/recipe/cs/r908845" },
+  { id: "s50", cat: "snidane", name: "Bezlepkové mandlovo-proteinové housky", kcal: 210, icon: "🥐", url: "https://cookidoo.cz/recipes/recipe/cs/r806960" },
+  { id: "s51", cat: "snidane", name: "Rýžová kaše s jablky a tvarohem", kcal: 300, icon: "🍎", url: "https://cookidoo.cz/recipes/recipe/cs/r87078" },
+  { id: "s52", cat: "snidane", name: "Ovesná kaše se skořicí", kcal: 320, icon: "🥣", url: "https://cookidoo.cz/recipes/recipe/cs/r73547" },
+  { id: "s53", cat: "snidane", name: "Krupicová kaše pro děti", kcal: 250, icon: "🥣", url: "https://cookidoo.cz/recipes/recipe/cs/r772556" },
+  { id: "s54", cat: "snidane", name: "Frittata di verdure", kcal: 220, icon: "🍳", url: "https://cookidoo.cz/recipes/recipe/cs/r70083" },
+  { id: "s55", cat: "snidane", name: "Mini Frittatas", kcal: 180, icon: "🍳", url: "https://cookidoo.cz/recipes/recipe/cs/r168918" },
 
   // OBĚD
   { id: "o1", cat: "obed", name: "Kuřecí prsa v jogurtové omáčce s bramborami", kcal: 375, icon: "🍗", url: "https://cookidoo.cz/recipes/recipe/cs/r67384" },
@@ -203,6 +213,36 @@ const CURATED = [
   { id: "o97", cat: "obed", name: "Vepřové maso na česneku se zeleninou a bramborami", kcal: 480, icon: "🧄", url: "https://cookidoo.cz/recipes/recipe/cs/r67388" },
   { id: "o98", cat: "obed", name: "Marinované filety z bílé ryby s omáčkou chermoula a kuskusovým salátem", kcal: 420, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r170888" },
   { id: "o99", cat: "obed", name: "Vejce na páře á la flamenca", kcal: 377, icon: "🥚", url: "https://cookidoo.cz/recipes/recipe/cs/r116718" },
+  { id: "o100", cat: "obed", name: "Kuřecí prsa v jogurtové omáčce s bramborami", kcal: 375, icon: "🍗", url: "https://cookidoo.cz/recipes/recipe/cs/r67384" },
+  { id: "o101", cat: "obed", name: "Brokolice s těstovinami a ančovičkami", kcal: 578, icon: "🍝", url: "https://cookidoo.cz/recipes/recipe/cs/r136000" },
+  { id: "o102", cat: "obed", name: "Kuřecí prsa plněná avokádem s barevnou rýží", kcal: 480, icon: "🥑", url: "https://cookidoo.cz/recipes/recipe/cs/r548461" },
+  { id: "o103", cat: "obed", name: "Krůtí plátky s omáčkou z hrášku a bramborovým pyré", kcal: 400, icon: "🍗", url: "https://cookidoo.cz/recipes/recipe/cs/r133731" },
+  { id: "o104", cat: "obed", name: "Masové kuličky s máslovou dýní a bramborem", kcal: 420, icon: "🎃", url: "https://cookidoo.cz/recipes/recipe/cs/r113018" },
+  { id: "o105", cat: "obed", name: "Středomořský kuřecí koláč", kcal: 380, icon: "🥧", url: "https://cookidoo.cz/recipes/recipe/cs/r244774" },
+  { id: "o106", cat: "obed", name: "Lososový salát s quinou, fetou a míchanou zeleninou", kcal: 534, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r151280" },
+  { id: "o107", cat: "obed", name: "Čočka s krevetami", kcal: 422, icon: "🦐", url: "https://cookidoo.cz/recipes/recipe/cs/r69960" },
+  { id: "o108", cat: "obed", name: "Losos se zeleninou a kuskusem", kcal: 393, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r154943" },
+  { id: "o109", cat: "obed", name: "Salsa verde kuskus s kuřecími řízečky", kcal: 945, icon: "🍗", url: "https://cookidoo.cz/recipes/recipe/cs/r61939" },
+  { id: "o110", cat: "obed", name: "Vepřová panenka s kyselým zelím a bramborovým pyré", kcal: 480, icon: "🥔", url: "https://cookidoo.cz/recipes/recipe/cs/r151405" },
+  { id: "o111", cat: "obed", name: "Vepřové kotlety s fazolemi a bramborami", kcal: 550, icon: "🫘", url: "https://cookidoo.cz/recipes/recipe/cs/r67390" },
+  { id: "o112", cat: "obed", name: "Vepřová pečeně s omáčkou ze sušených švestek", kcal: 480, icon: "🍖", url: "https://cookidoo.cz/recipes/recipe/cs/r156719" },
+  { id: "o113", cat: "obed", name: "Korejské vepřové kotlety s pikantní rýží a pak choi", kcal: 520, icon: "🍚", url: "https://cookidoo.cz/recipes/recipe/cs/r902157" },
+  { id: "o114", cat: "obed", name: "Palačinky se žampióny a sójovou smetanou (bez laktózy)", kcal: 220, icon: "🥞", url: "https://cookidoo.cz/recipes/recipe/cs/r365831" },
+  { id: "o115", cat: "obed", name: "Lososový tatarák s vejcem a avokádem", kcal: 380, icon: "🥑", url: "https://cookidoo.cz/recipes/recipe/cs/r766800" },
+  { id: "o116", cat: "obed", name: "Krůtí burger", kcal: 380, icon: "🍔", url: "https://cookidoo.cz/recipes/recipe/cs/r126158" },
+  { id: "o117", cat: "obed", name: "Burgery z krůtího masa s karamelizovanou cibulí a paprikou", kcal: 468, icon: "🍔", url: "https://cookidoo.cz/recipes/recipe/cs/r451021" },
+  { id: "o118", cat: "obed", name: "Klasické hovězí burgery", kcal: 480, icon: "🍔", url: "https://cookidoo.cz/recipes/recipe/cs/r902159" },
+  { id: "o119", cat: "obed", name: "Kuřecí ragú", kcal: 377, icon: "🍗", url: "https://cookidoo.cz/recipes/recipe/cs/r754502" },
+  { id: "o120", cat: "obed", name: "Kuřecí empanadas", kcal: 155, icon: "🥟", url: "https://cookidoo.cz/recipes/recipe/cs/r365256" },
+  { id: "o121", cat: "obed", name: "Kuřecí plátky s cuketou", kcal: 240, icon: "🥒", url: "https://cookidoo.cz/recipes/recipe/cs/r97780" },
+  { id: "o122", cat: "obed", name: "Jehněčí kotlety sous-vide s hráškovo-bramborovým pyré", kcal: 686, icon: "🐑", url: "https://cookidoo.cz/recipes/recipe/cs/r764053" },
+  { id: "o123", cat: "obed", name: "Jehněčí kotlety, bramborové pyré se špenátem a mátovou omáčkou", kcal: 793, icon: "🐑", url: "https://cookidoo.cz/recipes/recipe/cs/r433268" },
+  { id: "o124", cat: "obed", name: "Jehněčí masové kuličky s kuskusem, jogurtem a mátou", kcal: 600, icon: "🍡", url: "https://cookidoo.cz/recipes/recipe/cs/r142067" },
+  { id: "o125", cat: "obed", name: "Kuřecí závitky s bramborami", kcal: 420, icon: "🍗", url: "https://cookidoo.cz/recipes/recipe/cs/r52504" },
+  { id: "o126", cat: "obed", name: "Gnocchi s rajčatovou omáčkou, bazalkou a parmazánem", kcal: 568, icon: "🍝", url: "https://cookidoo.cz/recipes/recipe/cs/r126314" },
+  { id: "o127", cat: "obed", name: "Špagety alla Norma", kcal: 495, icon: "🍝", url: "https://cookidoo.cz/recipes/recipe/cs/r135239" },
+  { id: "o128", cat: "obed", name: "Lasagne", kcal: 480, icon: "🍝", url: "https://cookidoo.cz/recipes/recipe/cs/r100623" },
+  { id: "o129", cat: "obed", name: "Špagety se smetanovou omáčkou", kcal: 1186, icon: "🍝", url: "https://cookidoo.cz/recipes/recipe/cs/r66915" },
 
   // VEČEŘE
   { id: "v1", cat: "vecere", name: "Losos s bramborovou kaší", kcal: 221, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r87071" },
@@ -282,6 +322,28 @@ const CURATED = [
   { id: "v75", cat: "vecere", name: "Cizrnové karbanátky", kcal: 220, icon: "🫘", url: "https://cookidoo.cz/recipes/recipe/cs/r76807" },
   { id: "v76", cat: "vecere", name: "Kapustové karbanátky", kcal: 190, icon: "🥬", url: "https://cookidoo.cz/recipes/recipe/cs/r70174" },
   { id: "v77", cat: "vecere", name: "Fazolové placičky", kcal: 200, icon: "🫘", url: "https://cookidoo.cz/recipes/recipe/cs/r76799" },
+  { id: "v78", cat: "vecere", name: "Ratatouille", kcal: 130, icon: "🍆", url: "https://cookidoo.cz/recipes/recipe/cs/r67694" },
+  { id: "v79", cat: "vecere", name: "Plněná zelenina", kcal: 200, icon: "🫑", url: "https://cookidoo.cz/recipes/recipe/cs/r54976" },
+  { id: "v80", cat: "vecere", name: "Restovaná zelenina", kcal: 110, icon: "🥦", url: "https://cookidoo.cz/recipes/recipe/cs/r770992" },
+  { id: "v81", cat: "vecere", name: "Zapečená brokolice s rukolovým pestem a pečeným citrónem v řeckém stylu", kcal: 220, icon: "🥦", url: "https://cookidoo.cz/recipes/recipe/cs/r908822" },
+  { id: "v82", cat: "vecere", name: "Křupavoučký květák", kcal: 150, icon: "🥬", url: "https://cookidoo.cz/recipes/recipe/cs/r108186" },
+  { id: "v83", cat: "vecere", name: "Pstruh na páře a květákové pyré", kcal: 340, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r154976" },
+  { id: "v84", cat: "vecere", name: "Pstruh se zelenou čočkou", kcal: 400, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r127911" },
+  { id: "v85", cat: "vecere", name: "Pstruh s celerovým pyré a omáčkou z potočnice", kcal: 350, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r337738" },
+  { id: "v86", cat: "vecere", name: "Kuskusový salát s baby špenátem, fetou a česnekovou zálivkou", kcal: 320, icon: "🥗", url: "https://cookidoo.cz/recipes/recipe/cs/r806780" },
+  { id: "v87", cat: "vecere", name: "Tabouleh", kcal: 180, icon: "🥗", url: "https://cookidoo.cz/recipes/recipe/cs/r146148" },
+  { id: "v88", cat: "vecere", name: "Tabouleh s boby", kcal: 220, icon: "🫘", url: "https://cookidoo.cz/recipes/recipe/cs/r433265" },
+  { id: "v89", cat: "vecere", name: "Quinoa tabouleh", kcal: 200, icon: "🥗", url: "https://cookidoo.cz/recipes/recipe/cs/r144320" },
+  { id: "v90", cat: "vecere", name: "Chřestový salát s mangem", kcal: 220, icon: "🥭", url: "https://cookidoo.cz/recipes/recipe/cs/r608414" },
+  { id: "v91", cat: "vecere", name: "Krevetový salát s avokádem a skleněnými nudlemi", kcal: 280, icon: "🍤", url: "https://cookidoo.cz/recipes/recipe/cs/r548462" },
+  { id: "v92", cat: "vecere", name: "Krevetový vývar v thajském stylu a pikantní jablka", kcal: 200, icon: "🍜", url: "https://cookidoo.cz/recipes/recipe/cs/r151274" },
+  { id: "v93", cat: "vecere", name: "Marinované krevety", kcal: 190, icon: "🍤", url: "https://cookidoo.cz/recipes/recipe/cs/r127831" },
+  { id: "v94", cat: "vecere", name: "Mušle s omáčkou z bílého vína a smetany", kcal: 223, icon: "🦪", url: "https://cookidoo.cz/recipes/recipe/cs/r151413" },
+  { id: "v95", cat: "vecere", name: "Quiche s kysaným zelím", kcal: 260, icon: "🥧", url: "https://cookidoo.cz/recipes/recipe/cs/r117479" },
+  { id: "v96", cat: "vecere", name: "Quiche s cuketou a šunkou", kcal: 280, icon: "🥧", url: "https://cookidoo.cz/recipes/recipe/cs/r120814" },
+  { id: "v97", cat: "vecere", name: "Paprikovo-cuketový quiche", kcal: 240, icon: "🫑", url: "https://cookidoo.cz/recipes/recipe/cs/r734506" },
+  { id: "v98", cat: "vecere", name: "Celozrnný mangoldový quiche", kcal: 250, icon: "🥬", url: "https://cookidoo.cz/recipes/recipe/cs/r317157" },
+  { id: "v99", cat: "vecere", name: "Slaný koláč Quiche Lorraine", kcal: 380, icon: "🥧", url: "https://cookidoo.cz/recipes/recipe/cs/r55013" },
 
   // SVAČINY
   { id: "sv1", cat: "svacina", name: "Jahodovo-jogurtové smoothie s chia semínky", kcal: 87, icon: "🍓", url: "https://cookidoo.cz/recipes/recipe/cs/r177507" },
@@ -330,6 +392,14 @@ const CURATED = [
   { id: "sv44", cat: "svacina", name: "Sýrové tyčinky", kcal: 220, icon: "🧀", url: "https://cookidoo.cz/recipes/recipe/cs/r52570" },
   { id: "sv45", cat: "svacina", name: "Brynzové tyčinky", kcal: 230, icon: "🧀", url: "https://cookidoo.cz/recipes/recipe/cs/r567526" },
   { id: "sv46", cat: "svacina", name: "Jablečné cereální tyčinky s arašídy", kcal: 200, icon: "🍎", url: "https://cookidoo.cz/recipes/recipe/cs/r754518" },
+  { id: "sv47", cat: "svacina", name: "Domácí pribináček", kcal: 130, icon: "🥛", url: "https://cookidoo.cz/recipes/recipe/cs/r117314" },
+  { id: "sv48", cat: "svacina", name: "Sezamové tyčinky s medem a citrusy", kcal: 200, icon: "🍯", url: "https://cookidoo.cz/recipes/recipe/cs/r754510" },
+  { id: "sv49", cat: "svacina", name: "Chytré ořechové mlsání", kcal: 210, icon: "🥜", url: "https://cookidoo.cz/recipes/recipe/cs/r541223" },
+  { id: "sv50", cat: "svacina", name: "Proteinové čokoládové kuličky s burákovým máslem", kcal: 220, icon: "🍫", url: "https://cookidoo.cz/recipes/recipe/cs/r659071" },
+  { id: "sv51", cat: "svacina", name: "Banánovo-ořechová granola spolužáky přivolá", kcal: 320, icon: "🍌", url: "https://cookidoo.cz/recipes/recipe/cs/r365264" },
+  { id: "sv52", cat: "svacina", name: "RAW sezamové kuličky s kokosem", kcal: 190, icon: "🥥", url: "https://cookidoo.cz/recipes/recipe/cs/r91019" },
+  { id: "sv53", cat: "svacina", name: "Kešu krém", kcal: 200, icon: "🥜", url: "https://cookidoo.cz/recipes/recipe/cs/r143217" },
+  { id: "sv54", cat: "svacina", name: "Banánovo-arašídové cookies (bez lepku)", kcal: 210, icon: "🍪", url: "https://cookidoo.cz/recipes/recipe/cs/r601573" },
 ].map((r) => ({ ...r, verified: true, custom: false, diet: classifyDiet(r.name) }));
 
 /* ===========================================================
@@ -740,7 +810,7 @@ export default function App() {
                   { v: "zena", t: "👩 Žena" },
                   { v: "muz", t: "👨 Muž" },
                 ].map((o) => (
-                  <button key={o.v} onClick={() => update("gender", o.v)} className={`toggleBtn ${form.gender === o.v ? "active" : ""}`}>
+                  <button key={o.v} onClick={() => update("gender", o.v)} className={`toggleBtn toggleBtnPlum ${form.gender === o.v ? "active" : ""}`}>
                     {o.t}
                   </button>
                 ))}
@@ -770,7 +840,7 @@ export default function App() {
               <label className="label">Počet jídel denně</label>
               <div className="toggleRow">
                 {[3, 5].map((n) => (
-                  <button key={n} onClick={() => update("mealsPerDay", n)} className={`toggleBtn ${form.mealsPerDay === n ? "active" : ""}`}>
+                  <button key={n} onClick={() => update("mealsPerDay", n)} className={`toggleBtn toggleBtnPlum ${form.mealsPerDay === n ? "active" : ""}`}>
                     {n} jídla
                   </button>
                 ))}
@@ -1014,22 +1084,26 @@ const css = `
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap');
 
 :root {
-  --paper: #F1F4EC;
-  --card: #FFFFFF;
-  --ink: #1E2A22;
+  --paper: #F7F1E4;
+  --card: #FFFDF8;
+  --ink: #2A2318;
   --herb: #3A5A43;
   --herb-light: #5C8368;
   --saffron: #E4A63B;
   --tomato: #C1502E;
-  --line: #DEE3D3;
-  --muted: #6B7563;
+  --line: #E8DDC5;
+  --muted: #7A7160;
+  --plum: #7D4F63;
+  --plum-light: #9C6B80;
+  --navy: #3D5068;
+  --navy-light: #5A7291;
 }
 
 * { box-sizing: border-box; }
 
 .page { min-height: 100vh; background: var(--paper); font-family: 'Inter', sans-serif; color: var(--ink); padding-bottom: 48px; }
 
-.header { position: relative; overflow: hidden; background: linear-gradient(180deg, #E9EFE0 0%, var(--paper) 100%); border-bottom: 1px solid var(--line); }
+.header { position: relative; overflow: hidden; background: linear-gradient(180deg, #F0E4C8 0%, var(--paper) 100%); border-bottom: 1px solid var(--line); }
 .blob { position: absolute; border-radius: 50%; filter: blur(50px); opacity: 0.35; pointer-events: none; }
 .blob1 { width: 260px; height: 260px; background: var(--saffron); top: -110px; right: -60px; }
 .blob2 { width: 220px; height: 220px; background: var(--herb-light); bottom: -120px; left: -60px; }
@@ -1076,6 +1150,7 @@ const css = `
 .toggleBtn { flex: 1 1 auto; padding: 11px 14px; font-size: 14px; font-weight: 600; border: 1.5px solid var(--line); border-radius: 10px; background: #fff; color: var(--ink); cursor: pointer; transition: all 0.15s; }
 .toggleBtn:hover { border-color: var(--herb-light); transform: translateY(-1px); }
 .toggleBtn.active { background: linear-gradient(135deg, var(--herb), var(--herb-light)); border-color: var(--herb); color: #fff; box-shadow: 0 4px 12px rgba(58, 90, 67, 0.25); }
+.toggleBtnPlum.active { background: linear-gradient(135deg, var(--plum), var(--plum-light)); border-color: var(--plum); color: #fff; box-shadow: 0 4px 12px rgba(125, 79, 99, 0.3); }
 
 .activityBtn { flex: 1 1 200px; display: flex; align-items: flex-start; gap: 10px; padding: 13px 14px; font-size: 14px; text-align: left; border: 1.5px solid var(--line); border-radius: 12px; background: #fff; color: var(--ink); cursor: pointer; transition: all 0.15s; }
 .activityBtn:hover { border-color: var(--herb-light); transform: translateY(-1px); }
@@ -1086,10 +1161,10 @@ const css = `
 
 .primaryBtn {
   margin-top: 26px; width: 100%; padding: 15px 20px; font-size: 15px; font-weight: 700; letter-spacing: 0.3px; color: #fff;
-  background: linear-gradient(135deg, var(--tomato), #D9683F); border: none; border-radius: 12px; cursor: pointer;
-  transition: transform 0.15s, box-shadow 0.15s; box-shadow: 0 6px 18px rgba(193, 80, 46, 0.3);
+  background: linear-gradient(135deg, var(--navy), var(--navy-light)); border: none; border-radius: 12px; cursor: pointer;
+  transition: transform 0.15s, box-shadow 0.15s; box-shadow: 0 6px 18px rgba(61, 80, 104, 0.3);
 }
-.primaryBtn:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(193, 80, 46, 0.35); }
+.primaryBtn:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(61, 80, 104, 0.35); }
 .primaryBtn:active { transform: translateY(0); }
 
 .addForm { display: flex; flex-direction: column; gap: 16px; padding-top: 4px; }
