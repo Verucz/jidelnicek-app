@@ -52,6 +52,73 @@ const DIET_META = {
 };
 
 /* ===========================================================
+   0b) ODHAD MAKROŽIVIN
+      Cookidoo bez přihlášení nezobrazuje kompletní nutriční
+      rozpis pro každý recept, takže bílkoviny/sacharidy/tuky
+      počítáme přibližně podle typu jídla a celkových kcal.
+      Je to orientační odhad, ne přesné laboratorní číslo.
+   =========================================================== */
+function estimateMacros(name, kcal) {
+  const norm = normalizeText(name);
+  const hasMeatFish = hasWord(norm, MEAT_FISH_WORDS);
+  const hasStarch = hasWord(norm, STARCH_WORDS);
+  const isSweet = /kase|kaše|palacink|lívanec|livanec|jogurt|musli|müsli|granola|kolac|tyc|pěna|pena|smoothie|kokt|dzus|džus|pudink|cokolad|čokolád/.test(norm) && !hasMeatFish;
+
+  // podíl kalorií z bílkovin / sacharidů / tuků podle typu jídla
+  let pRatio, cRatio, fRatio;
+  if (hasMeatFish && hasStarch) { pRatio = 0.28; cRatio = 0.42; fRatio = 0.30; }
+  else if (hasMeatFish) { pRatio = 0.38; cRatio = 0.22; fRatio = 0.40; }
+  else if (isSweet) { pRatio = 0.14; cRatio = 0.58; fRatio = 0.28; }
+  else if (hasStarch) { pRatio = 0.16; cRatio = 0.60; fRatio = 0.24; }
+  else { pRatio = 0.22; cRatio = 0.40; fRatio = 0.38; }
+
+  return {
+    protein: Math.round((kcal * pRatio) / 4),
+    carbs: Math.round((kcal * cRatio) / 4),
+    fat: Math.round((kcal * fRatio) / 9),
+  };
+}
+
+function getMacros(recipe) {
+  return recipe.macros || estimateMacros(recipe.name, recipe.kcal);
+}
+
+/* ===========================================================
+   0c) ODHAD HLAVNÍCH SUROVIN Z NÁZVU RECEPTU
+      Cookidoo neposkytuje ingredience přes žádné veřejné API,
+      takže nákupní seznam sestavíme z klíčových slov v názvu.
+      Je to orientační přehled hlavních surovin, ne přesný
+      seznam s gramážemi — množství a doplňkové suroviny vždy
+      zkontroluj přímo v receptu na cookidoo.cz.
+   =========================================================== */
+const INGREDIENT_WORDS = {
+  "kuřecí maso": ["kure", "kurec"], "krůtí maso": ["krut"], "hovězí maso": ["hovez"],
+  "vepřové maso": ["veprov"], "jehněčí maso": ["jehnec", "jehne"], "kachní maso": ["kachn"],
+  "losos": ["losos"], "treska": ["treska"], "krevety": ["krevet"], "mušle": ["musle"],
+  "pstruh": ["pstruh"], "tuňák": ["tunak"], "slanina": ["slanin"], "šunka": ["sunk"], "klobása": ["klobas"],
+  "vejce": ["vejce", "vejci", "vajec"], "jogurt": ["jogurt"], "sýr": ["syr", "parmazan", "feta", "mozzarell", "cottage", "ricott"],
+  "tvaroh": ["tvaroh"], "smetana": ["smetan"], "máslo": ["maslo"], "mléko": ["mlek"],
+  "rýže": ["ryz", "rizot"], "brambory": ["brambor"], "těstoviny": ["testovin", "spaget", "penne", "gnocchi", "nudl"],
+  "chléb/pečivo": ["chleb", "houska", "houstic", "bulk", "rohlik", "toust", "bageta"],
+  "quinoa": ["quinoa"], "kuskus": ["kuskus"], "čočka": ["cocka"],
+  "cizrna": ["cizrn"], "fazole": ["fazol"], "cuketa": ["cuket"], "brokolice": ["brokolic"],
+  "květák": ["kvetak"], "špenát": ["spenat"], "houby": ["houb", "zampion", "hriv", "hrib"],
+  "mrkev": ["mrkev", "mrkvov"], "cibule": ["cibul"], "česnek": ["cesnek"], "paprika": ["paprik"],
+  "rajčata": ["rajcat", "rajsk"], "dýně": ["dyn"], "avokádo": ["avokad"], "citrusy": ["citron", "limetk", "pomeranc"],
+  "jablka": ["jablk"], "banán": ["banan"], "ořechy": ["orech", "mandl", "kesu", "lisk"],
+  "med": ["medov"], "olivový olej": ["olivov"], "bylinky": ["bylink", "bazalk", "petrzel", "koprov"],
+};
+
+function guessIngredients(name) {
+  const norm = normalizeText(name);
+  const found = [];
+  for (const [label, words] of Object.entries(INGREDIENT_WORDS)) {
+    if (words.some((w) => norm.includes(w))) found.push(label);
+  }
+  return found;
+}
+
+/* ===========================================================
    1) OVĚŘENÉ RECEPTY — reálné konkrétní recepty a odkazy
       dohledané přímo na cookidoo.cz (přímý proklik na recept)
    =========================================================== */
@@ -161,7 +228,7 @@ const CURATED = [
   { id: "o45", cat: "obed", name: "Masové kuličky s rajskou omáčkou", kcal: 359, icon: "🍅", url: "https://cookidoo.cz/recipes/recipe/cs/r55041" },
   { id: "o46", cat: "obed", name: "Kuřecí nugety s okurkovým dipem", kcal: 380, icon: "🍗", url: "https://cookidoo.cz/recipes/recipe/cs/r91831" },
   { id: "o47", cat: "obed", name: "Treska v alobalu s mrkvovými nudlemi", kcal: 357, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r69944" },
-  { id: "o48", cat: "obed", name: "Treska s bramborovo-dýňovou krustou a vinnou omáčkou", kcal: 355, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r608418" },
+  { id: "o48", cat: "obed", name: "Treska s bramborovo-dýňovou krustou a vinnou omáčkou", kcal: 355, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r608418", macros: { protein: 27, carbs: 13, fat: 21 } },
   { id: "o49", cat: "obed", name: "Gnocchi s lososem a hráškem", kcal: 917, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r133977" },
   { id: "o50", cat: "obed", name: "Losos v balíčku se sušenými rajčaty a kuskusem", kcal: 460, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r132024" },
   { id: "o51", cat: "obed", name: "Treska se zeleninou a rýží vařená v páře", kcal: 380, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r73540" },
@@ -191,8 +258,8 @@ const CURATED = [
   { id: "o75", cat: "obed", name: "Šťavnatý kořeněný jehněčí guláš s kumquatem", kcal: 639, icon: "🍲", url: "https://cookidoo.cz/recipes/recipe/cs/r513475" },
   { id: "o76", cat: "obed", name: "Kachna s vaječnými nudlemi a zeleninou", kcal: 486, icon: "🦆", url: "https://cookidoo.cz/recipes/recipe/cs/r67391" },
   { id: "o77", cat: "obed", name: "Kachna 5 vůní s houbami, asijskou zeleninou a rýží", kcal: 550, icon: "🦆", url: "https://cookidoo.cz/recipes/recipe/cs/r151404" },
-  { id: "o78", cat: "obed", name: "Treska v páře s italskou rajčatovou omáčkou a dušenými bramborami", kcal: 380, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r775903" },
-  { id: "o79", cat: "obed", name: "Losos s krémovou koprovou omáčkou a basmati rýží", kcal: 520, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r132023" },
+  { id: "o78", cat: "obed", name: "Treska v páře s italskou rajčatovou omáčkou a dušenými bramborami", kcal: 533, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r775903", macros: { protein: 48, carbs: 52, fat: 16 } },
+  { id: "o79", cat: "obed", name: "Losos s krémovou koprovou omáčkou a basmati rýží", kcal: 853, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r132023", macros: { protein: 34, carbs: 53, fat: 55 } },
   { id: "o80", cat: "obed", name: "Krůtí plátky na houbách", kcal: 307, icon: "🍄", url: "https://cookidoo.cz/recipes/recipe/cs/r144166" },
   { id: "o81", cat: "obed", name: "Krůtí stehno se slaninou a bramborami", kcal: 381, icon: "🍗", url: "https://cookidoo.cz/recipes/recipe/cs/r98612" },
   { id: "o82", cat: "obed", name: "Pomalu vařené krémové krůtí s houbami", kcal: 574, icon: "🍄", url: "https://cookidoo.cz/recipes/recipe/cs/r623525" },
@@ -243,6 +310,12 @@ const CURATED = [
   { id: "o127", cat: "obed", name: "Špagety alla Norma", kcal: 495, icon: "🍝", url: "https://cookidoo.cz/recipes/recipe/cs/r135239" },
   { id: "o128", cat: "obed", name: "Lasagne", kcal: 480, icon: "🍝", url: "https://cookidoo.cz/recipes/recipe/cs/r100623" },
   { id: "o129", cat: "obed", name: "Špagety se smetanovou omáčkou", kcal: 1186, icon: "🍝", url: "https://cookidoo.cz/recipes/recipe/cs/r66915" },
+  { id: "o130", cat: "obed", name: "Indické máslové kuře (Butter chicken)", kcal: 350, icon: "🍛", url: "https://cookidoo.cz/recipes/recipe/cs/r119791", macros: { protein: 22, carbs: 10, fat: 27 } },
+  { id: "o131", cat: "obed", name: "Grilované kuře s mrkvovým kuskusem", kcal: 703, icon: "🍗", url: "https://cookidoo.cz/recipes/recipe/cs/r775905", macros: { protein: 53, carbs: 85, fat: 16 } },
+  { id: "o132", cat: "obed", name: "Těstoviny orzo s lososem a špenátem", kcal: 560, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r132026", macros: { protein: 28, carbs: 37, fat: 32 } },
+  { id: "o133", cat: "obed", name: "Steaky z lososa s fazolkami a kari glazé", kcal: 441, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r152805", macros: { protein: 37, carbs: 10, fat: 28 } },
+  { id: "o134", cat: "obed", name: "Závitky z tresky a lososa s česnekovou omáčkou", kcal: 351, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r127908", macros: { protein: 40, carbs: 16, fat: 17 } },
+  { id: "o135", cat: "obed", name: "Losos vařený v páře se zeleninou v balíčku se žlutou rýží a rozinkami", kcal: 516, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r804561", macros: { protein: 37, carbs: 46, fat: 21 } },
 
   // VEČEŘE
   { id: "v1", cat: "vecere", name: "Losos s bramborovou kaší", kcal: 221, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r87071" },
@@ -344,6 +417,8 @@ const CURATED = [
   { id: "v97", cat: "vecere", name: "Paprikovo-cuketový quiche", kcal: 240, icon: "🫑", url: "https://cookidoo.cz/recipes/recipe/cs/r734506" },
   { id: "v98", cat: "vecere", name: "Celozrnný mangoldový quiche", kcal: 250, icon: "🥬", url: "https://cookidoo.cz/recipes/recipe/cs/r317157" },
   { id: "v99", cat: "vecere", name: "Slaný koláč Quiche Lorraine", kcal: 380, icon: "🥧", url: "https://cookidoo.cz/recipes/recipe/cs/r55013" },
+  { id: "v100", cat: "vecere", name: "Treska s petrželkovou krustou na zelené čočce", kcal: 385, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r119792", macros: { protein: 31, carbs: 35, fat: 17 } },
+  { id: "v101", cat: "vecere", name: "Treska v páře s petrželovou krustou, novými bramborami a cuketou", kcal: 360, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r353113", macros: { protein: 42, carbs: 39, fat: 4 } },
 
   // SVAČINY
   { id: "sv1", cat: "svacina", name: "Jahodovo-jogurtové smoothie s chia semínky", kcal: 87, icon: "🍓", url: "https://cookidoo.cz/recipes/recipe/cs/r177507" },
@@ -524,6 +599,9 @@ const PLAN_5 = [
 
 const FAVORITES_KEY = "jidelnicek_oblibene";
 const CUSTOM_KEY = "jidelnicek_vlastni_recepty";
+const HIDDEN_KEY = "jidelnicek_skryte";
+const WEIGHT_KEY = "jidelnicek_vaha_log";
+const HISTORY_KEY = "jidelnicek_historie";
 
 function toNum(v, fallback) {
   const n = parseFloat(v);
@@ -556,6 +634,39 @@ function portionNote(recipeKcal, target) {
   const rounded = Math.round(ratio * 4) / 4;
   const clamped = Math.min(2, Math.max(0.5, rounded));
   return clamped === 1 ? "odpovídá 1 porci" : `doporučená porce ${clamped}×`;
+}
+
+function WeightChart({ log }) {
+  const width = 600;
+  const height = 160;
+  const pad = 24;
+  const weights = log.map((e) => e.weight);
+  const min = Math.min(...weights);
+  const max = Math.max(...weights);
+  const range = max - min || 1;
+  const points = log.map((e, i) => {
+    const x = log.length === 1 ? width / 2 : pad + (i * (width - 2 * pad)) / (log.length - 1);
+    const y = height - pad - ((e.weight - min) / range) * (height - 2 * pad);
+    return { x, y, e };
+  });
+  const path = points.map((p, i) => `${i === 0 ? "M" : "L"}${p.x},${p.y}`).join(" ");
+
+  return (
+    <svg viewBox={`0 0 ${width} ${height}`} className="weightChart" preserveAspectRatio="xMidYMid meet">
+      <path d={path} fill="none" stroke="var(--plum)" strokeWidth="2.5" />
+      {points.map((p, i) => (
+        <circle key={i} cx={p.x} cy={p.y} r="4" fill="var(--plum)" />
+      ))}
+      {points.length > 0 && (
+        <>
+          <text x={points[0].x} y={height - 4} fontSize="10" fill="var(--muted)">{points[0].e.date.slice(5)}</text>
+          <text x={points[points.length - 1].x} y={height - 4} fontSize="10" fill="var(--muted)" textAnchor="end">
+            {points[points.length - 1].e.date.slice(5)}
+          </text>
+        </>
+      )}
+    </svg>
+  );
 }
 
 function NumberField({ label, value, onChange, min, max, suffix }) {
@@ -674,6 +785,14 @@ export default function App() {
   const [customRecipes, setCustomRecipes] = useState([]);
   const [showAddForm, setShowAddForm] = useState(false);
   const [dietFilter, setDietFilter] = useState([]);
+  const [hiddenRecipes, setHiddenRecipes] = useState([]);
+  const [showHidden, setShowHidden] = useState(false);
+  const [weightLog, setWeightLog] = useState([]);
+  const [newWeightEntry, setNewWeightEntry] = useState("");
+  const [planHistory, setPlanHistory] = useState([]);
+  const [showHistory, setShowHistory] = useState(false);
+  const [recipeSearch, setRecipeSearch] = useState("");
+  const [showSearch, setShowSearch] = useState(false);
 
   const toggleDietFilter = (tag) =>
     setDietFilter((prev) => (prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]));
@@ -684,17 +803,24 @@ export default function App() {
       if (savedFav) setFavorites(JSON.parse(savedFav));
       const savedCustom = localStorage.getItem(CUSTOM_KEY);
       if (savedCustom) setCustomRecipes(JSON.parse(savedCustom));
+      const savedHidden = localStorage.getItem(HIDDEN_KEY);
+      if (savedHidden) setHiddenRecipes(JSON.parse(savedHidden));
+      const savedWeight = localStorage.getItem(WEIGHT_KEY);
+      if (savedWeight) setWeightLog(JSON.parse(savedWeight));
+      const savedHistory = localStorage.getItem(HISTORY_KEY);
+      if (savedHistory) setPlanHistory(JSON.parse(savedHistory));
     } catch {
       /* ignore */
     }
   }, []);
 
-  const fullPool = useMemo(() => [...RECIPES, ...customRecipes], [customRecipes]);
+  const allPool = useMemo(() => [...RECIPES, ...customRecipes], [customRecipes]);
+  const fullPool = useMemo(() => allPool.filter((r) => !hiddenRecipes.includes(r.id)), [allPool, hiddenRecipes]);
   const filteredPool = useMemo(() => {
     if (dietFilter.length === 0) return fullPool;
     return fullPool.filter((r) => dietFilter.every((t) => r.diet?.includes(t)));
   }, [fullPool, dietFilter]);
-  const poolById = useMemo(() => Object.fromEntries(fullPool.map((r) => [r.id, r])), [fullPool]);
+  const poolById = useMemo(() => Object.fromEntries(allPool.map((r) => [r.id, r])), [allPool]);
 
   const toggleFavorite = (id) => {
     setFavorites((prev) => {
@@ -732,6 +858,86 @@ export default function App() {
       return next;
     });
     setFavorites((prev) => prev.filter((f) => f !== id));
+  };
+
+  const toggleHidden = (id) => {
+    setHiddenRecipes((prev) => {
+      const next = prev.includes(id) ? prev.filter((h) => h !== id) : [...prev, id];
+      try {
+        localStorage.setItem(HIDDEN_KEY, JSON.stringify(next));
+      } catch {
+        /* ignore */
+      }
+      return next;
+    });
+  };
+
+  const addWeightEntry = () => {
+    const val = Number(newWeightEntry);
+    if (!val || val <= 0) return;
+    const today = new Date().toISOString().slice(0, 10);
+    setWeightLog((prev) => {
+      const withoutToday = prev.filter((e) => e.date !== today);
+      const next = [...withoutToday, { date: today, weight: val }].sort((a, b) => (a.date < b.date ? -1 : 1));
+      try {
+        localStorage.setItem(WEIGHT_KEY, JSON.stringify(next));
+      } catch {
+        /* ignore */
+      }
+      return next;
+    });
+    setNewWeightEntry("");
+  };
+
+  const removeWeightEntry = (date) => {
+    setWeightLog((prev) => {
+      const next = prev.filter((e) => e.date !== date);
+      try {
+        localStorage.setItem(WEIGHT_KEY, JSON.stringify(next));
+      } catch {
+        /* ignore */
+      }
+      return next;
+    });
+  };
+
+  const savePlanToHistory = () => {
+    const entry = {
+      id: `plan-${Date.now()}`,
+      savedAt: new Date().toISOString(),
+      form,
+      selections,
+      offsets,
+    };
+    setPlanHistory((prev) => {
+      const next = [entry, ...prev].slice(0, 20);
+      try {
+        localStorage.setItem(HISTORY_KEY, JSON.stringify(next));
+      } catch {
+        /* ignore */
+      }
+      return next;
+    });
+  };
+
+  const loadPlanFromHistory = (entry) => {
+    setForm(entry.form);
+    setSelections(entry.selections || {});
+    setOffsets(entry.offsets || {});
+    setShowPlan(true);
+    setShowHistory(false);
+  };
+
+  const removeHistoryEntry = (id) => {
+    setPlanHistory((prev) => {
+      const next = prev.filter((p) => p.id !== id);
+      try {
+        localStorage.setItem(HISTORY_KEY, JSON.stringify(next));
+      } catch {
+        /* ignore */
+      }
+      return next;
+    });
   };
 
   const results = useMemo(() => {
@@ -773,7 +979,39 @@ export default function App() {
       return sum + (recipe ? recipe.kcal : 0);
     }, 0);
 
+  const dayMacros = (daySlots) =>
+    daySlots.reduce(
+      (sum, slot) => {
+        const chosenId = selections[slot.key] ?? slot.options[0]?.id;
+        const recipe = slot.options.find((r) => r.id === chosenId);
+        if (!recipe) return sum;
+        const m = getMacros(recipe);
+        return { protein: sum.protein + m.protein, carbs: sum.carbs + m.carbs, fat: sum.fat + m.fat };
+      },
+      { protein: 0, carbs: 0, fat: 0 }
+    );
+
+  const shoppingList = useMemo(() => {
+    if (!showPlan) return [];
+    const set = new Set();
+    multiDayPlan.forEach((day) => {
+      day.slots.forEach((slot) => {
+        const chosenId = selections[slot.key] ?? slot.options[0]?.id;
+        const recipe = slot.options.find((r) => r.id === chosenId);
+        if (recipe) guessIngredients(recipe.name).forEach((ing) => set.add(ing));
+      });
+    });
+    return Array.from(set).sort();
+  }, [showPlan, multiDayPlan, selections]);
+
+  const searchResults = useMemo(() => {
+    if (recipeSearch.trim().length < 2) return [];
+    const norm = normalizeText(recipeSearch.trim());
+    return allPool.filter((r) => normalizeText(r.name).includes(norm)).slice(0, 30);
+  }, [recipeSearch, allPool]);
+
   const favoriteRecipes = favorites.map((id) => poolById[id]).filter(Boolean);
+  const hiddenRecipeObjs = hiddenRecipes.map((id) => poolById[id]).filter(Boolean);
 
   return (
     <div className="page">
@@ -880,6 +1118,150 @@ export default function App() {
           </button>
         </section>
 
+        {/* ---- SLEDOVÁNÍ VÁHY ---- */}
+        <section className="card">
+          <div className="cardHeadRow">
+            <span className="stamp">⚖️</span>
+            <h2 className="cardTitle">Sledování váhy</h2>
+          </div>
+          <div className="weightInputRow">
+            <input
+              type="number"
+              className="weightInput"
+              placeholder="Váha dnes (kg)"
+              value={newWeightEntry}
+              onChange={(e) => setNewWeightEntry(e.target.value)}
+            />
+            <button className="linkBtnSolid" onClick={addWeightEntry}>Zapsat</button>
+          </div>
+          {weightLog.length > 0 ? (
+            <>
+              <WeightChart log={weightLog} />
+              <div className="weightLogList">
+                {[...weightLog].reverse().slice(0, 8).map((e) => (
+                  <div key={e.date} className="weightLogRow">
+                    <span>{e.date}</span>
+                    <span>{e.weight} kg</span>
+                    <button className="heartBtn" onClick={() => removeWeightEntry(e.date)} title="Smazat záznam">🗑️</button>
+                  </div>
+                ))}
+              </div>
+            </>
+          ) : (
+            <p className="subtleNote">Zatím žádné záznamy — zapiš si první váhu a sleduj vývoj v čase.</p>
+          )}
+        </section>
+
+        {/* ---- VYHLEDAT RECEPTY ---- */}
+        <section className="card">
+          <div className="cardHeadRow" style={{ justifyContent: "space-between" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+              <span className="stamp">🔍</span>
+              <h2 className="cardTitle">Vyhledat recepty</h2>
+            </div>
+            <button className="linkBtn" onClick={() => setShowSearch((s) => !s)}>
+              {showSearch ? "Zavřít" : "Otevřít vyhledávání"}
+            </button>
+          </div>
+          {showSearch && (
+            <>
+              <input
+                type="text"
+                className="searchInput"
+                placeholder="Hledat podle názvu, např. losos, guláš, jogurt…"
+                value={recipeSearch}
+                onChange={(e) => setRecipeSearch(e.target.value)}
+              />
+              {recipeSearch.trim().length >= 2 && (
+                <div className="optionsGrid" style={{ marginTop: 16 }}>
+                  {searchResults.length === 0 && <p className="subtleNote">Nic jsem nenašel.</p>}
+                  {searchResults.map((r) => {
+                    const isFav = favorites.includes(r.id);
+                    const isHidden = hiddenRecipes.includes(r.id);
+                    return (
+                      <div key={r.id} className="option">
+                        <div className="optionTop">
+                          <span className="optionIcon">{r.icon}</span>
+                          <div style={{ display: "flex", gap: 6 }}>
+                            <button className={`heartBtn ${isFav ? "active" : ""}`} onClick={() => toggleFavorite(r.id)} title="Uložit mezi oblíbené">♥</button>
+                            <button className="heartBtn" onClick={() => toggleHidden(r.id)} title={isHidden ? "Vrátit zpět do nabídky" : "Nechci tenhle recept"}>
+                              {isHidden ? "↩️" : "🚫"}
+                            </button>
+                          </div>
+                        </div>
+                        <div className="optionName">{r.name}</div>
+                        <div className="optionMeta">
+                          <span className="optionKcal">{r.kcal} kcal</span>
+                          <span className="optionPortion">{CATEGORY_LABEL[r.cat]}</span>
+                        </div>
+                        <a href={r.url} target="_blank" rel="noreferrer" className="cookidooLink">
+                          {r.verified ? "Otevřít recept na Cookidoo ↗" : "Hledat na Cookidoo ↗"}
+                        </a>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </>
+          )}
+        </section>
+
+        {/* ---- HISTORIE JÍDELNÍČKŮ ---- */}
+        {planHistory.length > 0 && (
+          <section className="card">
+            <div className="cardHeadRow" style={{ justifyContent: "space-between" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                <span className="stamp">🕑</span>
+                <h2 className="cardTitle">Historie jídelníčků</h2>
+              </div>
+              <button className="linkBtn" onClick={() => setShowHistory((s) => !s)}>
+                {showHistory ? "Skrýt" : `Zobrazit (${planHistory.length})`}
+              </button>
+            </div>
+            {showHistory && (
+              <div className="historyList">
+                {planHistory.map((entry) => (
+                  <div key={entry.id} className="historyRow">
+                    <span>{new Date(entry.savedAt).toLocaleDateString("cs-CZ")} · {entry.form.days} {entry.form.days === 1 ? "den" : "dní"} · {entry.form.mealsPerDay} jídla/den</span>
+                    <div style={{ display: "flex", gap: 8 }}>
+                      <button className="linkBtn" onClick={() => loadPlanFromHistory(entry)}>Načíst</button>
+                      <button className="heartBtn" onClick={() => removeHistoryEntry(entry.id)} title="Smazat">🗑️</button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
+        )}
+
+        {/* ---- SKRYTÉ RECEPTY ---- */}
+        {hiddenRecipeObjs.length > 0 && (
+          <section className="card">
+            <div className="cardHeadRow" style={{ justifyContent: "space-between" }}>
+              <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                <span className="stamp">🚫</span>
+                <h2 className="cardTitle">Skryté recepty</h2>
+              </div>
+              <button className="linkBtn" onClick={() => setShowHidden((s) => !s)}>
+                {showHidden ? "Skrýt" : `Zobrazit (${hiddenRecipeObjs.length})`}
+              </button>
+            </div>
+            {showHidden && (
+              <div className="optionsGrid">
+                {hiddenRecipeObjs.map((r) => (
+                  <div key={r.id} className="option">
+                    <div className="optionTop">
+                      <span className="optionIcon">{r.icon}</span>
+                      <button className="heartBtn" onClick={() => toggleHidden(r.id)} title="Vrátit zpět do nabídky">↩️</button>
+                    </div>
+                    <div className="optionName">{r.name}</div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </section>
+        )}
+
         {/* ---- PŘIDAT VLASTNÍ RECEPT ---- */}
         <section className="card">
           <div className="cardHeadRow" style={{ justifyContent: "space-between" }}>
@@ -973,13 +1355,22 @@ export default function App() {
                   <div className="resultValue">{form.days}</div>
                 </div>
               </div>
+              <div className="resultActions noPrint">
+                <button className="ghostBtnLight" onClick={savePlanToHistory}>💾 Uložit do historie</button>
+                <button className="ghostBtnLight" onClick={() => window.print()}>🖨️ Vytisknout / Exportovat PDF</button>
+              </div>
             </section>
 
-            {multiDayPlan.map((day) => (
+            {multiDayPlan.map((day) => {
+              const macros = dayMacros(day.slots);
+              return (
               <section key={day.dayIndex} className="dayBlock">
                 <div className="dayHeadRow">
                   <h2 className="dayTitle">Den {day.dayIndex + 1}</h2>
-                  <span className="dayTotal">{dayTotal(day.slots)} kcal celkem</span>
+                  <span className="dayTotal">
+                    {dayTotal(day.slots)} kcal celkem
+                    <span className="macroInline"> · B {macros.protein}g · S {macros.carbs}g · T {macros.fat}g</span>
+                  </span>
                 </div>
 
                 <div className="timeline">
@@ -1025,6 +1416,16 @@ export default function App() {
                                     >
                                       ♥
                                     </button>
+                                    <button
+                                      className="heartBtn"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        toggleHidden(r.id);
+                                      }}
+                                      title="Nechci tenhle recept"
+                                    >
+                                      🚫
+                                    </button>
                                     {active && <span className="checkMark">✓</span>}
                                   </div>
                                 </div>
@@ -1039,6 +1440,12 @@ export default function App() {
                                 <div className="optionMeta">
                                   <span className="optionKcal">{r.kcal} kcal</span>
                                   <span className="optionPortion">{portionNote(r.kcal, slot.target)}</span>
+                                </div>
+                                <div className="macroLine">
+                                  {(() => {
+                                    const m = getMacros(r);
+                                    return `B ${m.protein}g · S ${m.carbs}g · T ${m.fat}g${r.macros ? "" : " (odhad)"}`;
+                                  })()}
                                 </div>
                                 <a
                                   href={r.url}
@@ -1058,7 +1465,30 @@ export default function App() {
                   })}
                 </div>
               </section>
-            ))}
+              );
+            })}
+
+            {shoppingList.length > 0 && (
+              <section className="card noPrint">
+                <div className="cardHeadRow">
+                  <span className="stamp">🛒</span>
+                  <h2 className="cardTitle">Nákupní seznam (orientační)</h2>
+                </div>
+                <p className="dietDisclaimer">
+                  ⚠️ Seznam je odhad hlavních surovin podle názvů vybraných receptů, ne přesný
+                  seznam s gramážemi. Množství a doplňkové ingredience vždy zkontroluj přímo
+                  v receptu na cookidoo.cz.
+                </p>
+                <div className="shoppingGrid">
+                  {shoppingList.map((item) => (
+                    <label key={item} className="shoppingItem">
+                      <input type="checkbox" />
+                      {item}
+                    </label>
+                  ))}
+                </div>
+              </section>
+            )}
           </>
         )}
       </main>
@@ -1217,6 +1647,24 @@ const css = `
 
 .footer { max-width: 760px; margin: 24px auto 0; padding: 0 24px; font-size: 12px; color: var(--muted); line-height: 1.6; }
 
+.weightInputRow { display: flex; gap: 10px; margin-bottom: 16px; }
+.weightInput { flex: 1; padding: 11px 14px; font-size: 14px; border: 1.5px solid var(--line); border-radius: 10px; background: #fff; color: var(--ink); font-family: 'IBM Plex Mono', monospace; }
+.linkBtnSolid { border: none; background: var(--herb); color: #fff; font-weight: 700; font-size: 13px; padding: 0 18px; border-radius: 10px; cursor: pointer; }
+.weightChart { width: 100%; height: 160px; margin-bottom: 12px; }
+.weightLogList { display: flex; flex-direction: column; gap: 6px; }
+.weightLogRow { display: flex; justify-content: space-between; align-items: center; font-size: 13px; padding: 6px 10px; border-radius: 8px; background: rgba(0,0,0,0.02); }
+.subtleNote { font-size: 13px; color: var(--muted); }
+.searchInput { width: 100%; padding: 12px 16px; font-size: 14px; border: 1.5px solid var(--line); border-radius: 10px; background: #fff; color: var(--ink); }
+.historyList { display: flex; flex-direction: column; gap: 8px; }
+.historyRow { display: flex; justify-content: space-between; align-items: center; font-size: 13px; padding: 10px 12px; border-radius: 10px; background: rgba(0,0,0,0.02); }
+.resultActions { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
+.ghostBtnLight { border: 1.5px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.08); color: #FDFCF7; font-size: 13px; font-weight: 700; padding: 9px 16px; border-radius: 10px; cursor: pointer; }
+.ghostBtnLight:hover { background: rgba(255,255,255,0.15); }
+.macroInline { font-size: 12px; font-weight: 500; opacity: 0.85; margin-left: 6px; }
+.macroLine { font-size: 11px; color: var(--muted); font-family: 'IBM Plex Mono', monospace; }
+.shoppingGrid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 10px; }
+.shoppingItem { display: flex; align-items: center; gap: 8px; font-size: 13px; padding: 8px 10px; border-radius: 8px; background: rgba(0,0,0,0.02); cursor: pointer; }
+
 @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
 @media (max-width: 520px) {
@@ -1224,5 +1672,12 @@ const css = `
   .formGrid { grid-template-columns: 1fr; }
   .mealHead { flex-wrap: wrap; }
   .shuffleBtn { margin-left: 58px; }
+}
+
+@media print {
+  .header, .footer, .card, .noPrint, .shuffleBtn, .heartBtn { display: none !important; }
+  .resultActions { display: none !important; }
+  body, .page { background: #fff !important; }
+  .dayBlock { break-inside: avoid; }
 }
 `;
