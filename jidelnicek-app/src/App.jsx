@@ -106,6 +106,8 @@ const INGREDIENT_WORDS = {
   "mrkev": ["mrkev", "mrkvov"], "cibule": ["cibul"], "česnek": ["cesnek"], "paprika": ["paprik"],
   "rajčata": ["rajcat", "rajsk"], "dýně": ["dyn"], "avokádo": ["avokad"], "citrusy": ["citron", "limetk", "pomeranc"],
   "jablka": ["jablk"], "banán": ["banan"], "ořechy": ["orech", "mandl", "kesu", "lisk"],
+  "hrušky": ["hrusk"], "ananas": ["ananas"], "meruňky": ["merun"], "broskve": ["broskv"],
+  "sója": ["soj"], "sezam": ["sezam"], "mák": ["makov", "makem"], "hořčice": ["horcic"],
   "med": ["medov"], "olivový olej": ["olivov"], "bylinky": ["bylink", "bazalk", "petrzel", "koprov"],
 };
 
@@ -117,6 +119,17 @@ function guessIngredients(name) {
   }
   return found;
 }
+
+const ALLERGEN_OPTIONS = ["ořechy", "jablka", "hrušky", "ananas", "meruňky", "broskve", "vejce", "sója", "sezam", "mák", "hořčice", "krevety", "mušle"];
+const PANTRY_OPTIONS = Object.keys(INGREDIENT_WORDS);
+const PANTRY_GROUPS = [
+  { label: "🍗 Maso a ryby", items: ["kuřecí maso", "krůtí maso", "hovězí maso", "vepřové maso", "jehněčí maso", "kachní maso", "losos", "treska", "krevety", "mušle", "pstruh", "tuňák", "slanina", "šunka", "klobása"] },
+  { label: "🥛 Mléčné a vejce", items: ["vejce", "jogurt", "sýr", "tvaroh", "smetana", "máslo", "mléko"] },
+  { label: "🌾 Obiloviny a luštěniny", items: ["rýže", "brambory", "těstoviny", "chléb/pečivo", "quinoa", "kuskus", "čočka", "cizrna", "fazole"] },
+  { label: "🥦 Zelenina", items: ["cuketa", "brokolice", "květák", "špenát", "houby", "mrkev", "cibule", "česnek", "paprika", "rajčata", "dýně", "avokádo"] },
+  { label: "🍎 Ovoce", items: ["citrusy", "jablka", "banán", "hrušky", "ananas", "meruňky", "broskve"] },
+  { label: "🥜 Ořechy, koření a ostatní", items: ["ořechy", "sója", "sezam", "mák", "hořčice", "med", "olivový olej", "bylinky"] },
+];
 
 /* ===========================================================
    1) OVĚŘENÉ RECEPTY — reálné konkrétní recepty a odkazy
@@ -298,7 +311,7 @@ const CURATED = [
   { id: "o115", cat: "obed", name: "Lososový tatarák s vejcem a avokádem", kcal: 380, icon: "🥑", url: "https://cookidoo.cz/recipes/recipe/cs/r766800" },
   { id: "o116", cat: "obed", name: "Krůtí burger", kcal: 380, icon: "🍔", url: "https://cookidoo.cz/recipes/recipe/cs/r126158" },
   { id: "o117", cat: "obed", name: "Burgery z krůtího masa s karamelizovanou cibulí a paprikou", kcal: 468, icon: "🍔", url: "https://cookidoo.cz/recipes/recipe/cs/r451021" },
-  { id: "o118", cat: "obed", name: "Klasické hovězí burgery", kcal: 480, icon: "🍔", url: "https://cookidoo.cz/recipes/recipe/cs/r902159" },
+  { id: "o118", cat: "obed", name: "Klasické hovězí burgery", kcal: 519, icon: "🍔", url: "https://cookidoo.cz/recipes/recipe/cs/r902159", macros: { protein: 46, carbs: 40, fat: 19 } },
   { id: "o119", cat: "obed", name: "Kuřecí ragú", kcal: 377, icon: "🍗", url: "https://cookidoo.cz/recipes/recipe/cs/r754502" },
   { id: "o120", cat: "obed", name: "Kuřecí empanadas", kcal: 155, icon: "🥟", url: "https://cookidoo.cz/recipes/recipe/cs/r365256" },
   { id: "o121", cat: "obed", name: "Kuřecí plátky s cuketou", kcal: 240, icon: "🥒", url: "https://cookidoo.cz/recipes/recipe/cs/r97780" },
@@ -318,6 +331,13 @@ const CURATED = [
   { id: "o135", cat: "obed", name: "Losos vařený v páře se zeleninou v balíčku se žlutou rýží a rozinkami", kcal: 516, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r804561", macros: { protein: 37, carbs: 46, fat: 21 } },
   { id: "o136", cat: "obed", name: "Krůtí roláda s olivami a zeleninová quinoa", kcal: 479, icon: "🫒", url: "https://cookidoo.cz/recipes/recipe/cs/r347171", macros: { protein: 38, carbs: 50, fat: 16 } },
   { id: "o137", cat: "obed", name: "Sous-vide kuřecí ballotine s omáčkou z červených paprik", kcal: 420, icon: "🍗", url: "https://cookidoo.cz/recipes/recipe/cs/r623515", macros: { protein: 52, carbs: 3, fat: 21 } },
+  { id: "o138", cat: "obed", name: "Vepřové kousky na zázvoru", kcal: 622, icon: "🫚", url: "https://cookidoo.cz/recipes/recipe/cs/r112923", macros: { protein: 38, carbs: 71, fat: 23 } },
+  { id: "o139", cat: "obed", name: "Hovězí na pivu", kcal: 537, icon: "🍺", url: "https://cookidoo.cz/recipes/recipe/cs/r365845", macros: { protein: 38, carbs: 25, fat: 24 } },
+  { id: "o140", cat: "obed", name: "Vepřové medailonky s liškovou omáčkou a knedlíčky", kcal: 863, icon: "🍄", url: "https://cookidoo.cz/recipes/recipe/cs/r79967", macros: { protein: 56, carbs: 53, fat: 46 } },
+  { id: "o141", cat: "obed", name: "Vepřové maso po čínsku se zeleninou a rýžovými nudlemi", kcal: 415, icon: "🍜", url: "https://cookidoo.cz/recipes/recipe/cs/r426911", macros: { protein: 30, carbs: 47, fat: 11 } },
+  { id: "o142", cat: "obed", name: "Dušené vepřové maso se ciderem", kcal: 812, icon: "🍎", url: "https://cookidoo.cz/recipes/recipe/cs/r143471", macros: { protein: 58, carbs: 40, fat: 43 } },
+  { id: "o143", cat: "obed", name: "Trhané vepřové maso", kcal: 268, icon: "🍖", url: "https://cookidoo.cz/recipes/recipe/cs/r404192", macros: { protein: 27, carbs: 12, fat: 12 } },
+  { id: "o144", cat: "obed", name: "Vepřové maso v omáčce s fazolemi", kcal: 411, icon: "🫘", url: "https://cookidoo.cz/recipes/recipe/cs/r451023", macros: { protein: 34, carbs: 55, fat: 4 } },
 
   // VEČEŘE
   { id: "v1", cat: "vecere", name: "Losos s bramborovou kaší", kcal: 221, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r87071" },
@@ -477,6 +497,8 @@ const CURATED = [
   { id: "sv52", cat: "svacina", name: "RAW sezamové kuličky s kokosem", kcal: 190, icon: "🥥", url: "https://cookidoo.cz/recipes/recipe/cs/r91019" },
   { id: "sv53", cat: "svacina", name: "Kešu krém", kcal: 200, icon: "🥜", url: "https://cookidoo.cz/recipes/recipe/cs/r143217" },
   { id: "sv54", cat: "svacina", name: "Banánovo-arašídové cookies (bez lepku)", kcal: 210, icon: "🍪", url: "https://cookidoo.cz/recipes/recipe/cs/r601573" },
+  { id: "sv55", cat: "svacina", name: "Terina s kachními játry a portským vínem", kcal: 320, icon: "🦆", url: "https://cookidoo.cz/recipes/recipe/cs/r134451", macros: { protein: 22, carbs: 4, fat: 24 } },
+  { id: "sv56", cat: "svacina", name: "Vepřenky", kcal: 332, icon: "🍖", url: "https://cookidoo.cz/recipes/recipe/cs/r52507", macros: { protein: 25, carbs: 4, fat: 22 } },
 ].map((r) => ({ ...r, verified: true, custom: false, diet: classifyDiet(r.name) }));
 
 /* ===========================================================
@@ -795,6 +817,20 @@ export default function App() {
   const [showHistory, setShowHistory] = useState(false);
   const [recipeSearch, setRecipeSearch] = useState("");
   const [showSearch, setShowSearch] = useState(false);
+  const [allergenFilter, setAllergenFilter] = useState([]);
+  const [pantryItems, setPantryItems] = useState([]);
+  const [pantryOnly, setPantryOnly] = useState(false);
+  const [pantrySearch, setPantrySearch] = useState("");
+  const [showPantryPicker, setShowPantryPicker] = useState(false);
+  const [showDietPicker, setShowDietPicker] = useState(false);
+  const [showAllergenPicker, setShowAllergenPicker] = useState(false);
+  const [activeTab, setActiveTab] = useState("plan");
+  const [currentDayIndex, setCurrentDayIndex] = useState(0);
+
+  const toggleAllergen = (item) =>
+    setAllergenFilter((prev) => (prev.includes(item) ? prev.filter((t) => t !== item) : [...prev, item]));
+  const togglePantryItem = (item) =>
+    setPantryItems((prev) => (prev.includes(item) ? prev.filter((t) => t !== item) : [...prev, item]));
 
   const toggleDietFilter = (tag) =>
     setDietFilter((prev) => (prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]));
@@ -816,12 +852,31 @@ export default function App() {
     }
   }, []);
 
+  useEffect(() => {
+    setCurrentDayIndex((i) => Math.min(i, Math.max(0, form.days - 1)));
+  }, [form.days]);
+
   const allPool = useMemo(() => [...RECIPES, ...customRecipes], [customRecipes]);
   const fullPool = useMemo(() => allPool.filter((r) => !hiddenRecipes.includes(r.id)), [allPool, hiddenRecipes]);
   const filteredPool = useMemo(() => {
-    if (dietFilter.length === 0) return fullPool;
-    return fullPool.filter((r) => dietFilter.every((t) => r.diet?.includes(t)));
-  }, [fullPool, dietFilter]);
+    let pool = fullPool;
+    if (dietFilter.length > 0) {
+      pool = pool.filter((r) => dietFilter.every((t) => r.diet?.includes(t)));
+    }
+    if (allergenFilter.length > 0) {
+      pool = pool.filter((r) => {
+        const ing = guessIngredients(r.name);
+        return !allergenFilter.some((a) => ing.includes(a));
+      });
+    }
+    if (pantryOnly && pantryItems.length > 0) {
+      pool = pool.filter((r) => {
+        const ing = guessIngredients(r.name);
+        return pantryItems.some((p) => ing.includes(p));
+      });
+    }
+    return pool;
+  }, [fullPool, dietFilter, allergenFilter, pantryOnly, pantryItems]);
   const poolById = useMemo(() => Object.fromEntries(allPool.map((r) => [r.id, r])), [allPool]);
 
   const toggleFavorite = (id) => {
@@ -928,6 +983,7 @@ export default function App() {
     setOffsets(entry.offsets || {});
     setShowPlan(true);
     setShowHistory(false);
+    setActiveTab("plan");
   };
 
   const removeHistoryEntry = (id) => {
@@ -959,7 +1015,8 @@ export default function App() {
         const manualOffset = offsets[key] || 0;
         let options = pickThree(filteredPool, slot.cat, target, d + manualOffset);
         let filterMissed = false;
-        if (options.length === 0 && dietFilter.length > 0) {
+        const anyFilterActive = dietFilter.length > 0 || allergenFilter.length > 0 || (pantryOnly && pantryItems.length > 0);
+        if (options.length === 0 && anyFilterActive) {
           options = pickThree(fullPool, slot.cat, target, d + manualOffset);
           filterMissed = true;
         }
@@ -968,7 +1025,7 @@ export default function App() {
       days.push({ dayIndex: d, slots: daySlots });
     }
     return days;
-  }, [form.days, form.mealsPerDay, results.tdee, offsets, slots, filteredPool, fullPool, dietFilter]);
+  }, [form.days, form.mealsPerDay, results.tdee, offsets, slots, filteredPool, fullPool, dietFilter, allergenFilter, pantryOnly, pantryItems]);
 
   const update = (key, value) => setForm((f) => ({ ...f, [key]: value }));
   const selectOption = (slotKey, recipeId) => setSelections((s) => ({ ...s, [slotKey]: recipeId }));
@@ -1034,7 +1091,24 @@ export default function App() {
         </div>
       </header>
 
+      <nav className="tabBar">
+        <div className="tabBarInner">
+          {[
+            { k: "plan", label: "📋 Jídelníček" },
+            { k: "vaha", label: "⚖️ Váha" },
+            { k: "recepty", label: "🔍 Recepty" },
+            { k: "historie", label: "🕑 Historie" },
+          ].map((t) => (
+            <button key={t.k} className={`tabBtn ${activeTab === t.k ? "active" : ""}`} onClick={() => setActiveTab(t.k)}>
+              {t.label}
+            </button>
+          ))}
+        </div>
+      </nav>
+
       <main className="main">
+        {activeTab === "plan" && (
+        <>
         {/* ---- FORMULÁŘ ---- */}
         <section className="card">
           <div className="cardHeadRow">
@@ -1090,36 +1164,189 @@ export default function App() {
             <div className="fullRow">
               <Stepper label="Počet dní jídelníčku" value={form.days} min={1} max={7} onChange={(v) => update("days", v)} />
             </div>
+          </div>
+        </section>
 
-            <div className="field fullRow">
-              <label className="label">Dietní omezení (nepovinné)</label>
-              <div className="toggleRow">
-                {Object.entries(DIET_META).map(([key, meta]) => (
-                  <button
-                    key={key}
-                    type="button"
-                    className={`toggleBtn ${dietFilter.includes(key) ? "active" : ""}`}
-                    onClick={() => toggleDietFilter(key)}
-                  >
-                    {meta.icon} {meta.label}
+        {/* ---- DIETNÍ FILTR (přes celou šířku obrazovky na PC) ---- */}
+        <section className="dietFilterBand">
+          <div className="dietFilterInner">
+            <div className="cardHeadRow" style={{ justifyContent: "space-between", marginBottom: showDietPicker ? 14 : 0, flexWrap: "wrap", gap: 10 }}>
+              <label className="label" style={{ marginBottom: 0 }}>
+                Dietní omezení (nepovinné){dietFilter.length > 0 && ` — vybráno ${dietFilter.length}`}
+              </label>
+              <button className="linkBtn" onClick={() => setShowDietPicker((s) => !s)}>
+                {showDietPicker ? "Zavřít" : "Vybrat omezení"}
+              </button>
+            </div>
+            {!showDietPicker && dietFilter.length > 0 && (
+              <div className="pantrySelectedRow" style={{ marginTop: 12, paddingBottom: 0, border: "none" }}>
+                {dietFilter.map((key) => (
+                  <button key={key} type="button" className="toggleBtn toggleBtnSmall active" onClick={() => toggleDietFilter(key)}>
+                    {DIET_META[key].icon} {DIET_META[key].label} ✕
                   </button>
                 ))}
               </div>
-              {dietFilter.length > 0 && (
-                <p className="dietDisclaimer">
-                  ⚠️ Štítky jsou odhad podle názvu receptu, ne ověřené složení. U celiakie, těžké
-                  laktózové intolerance nebo alergie si vždy zkontroluj skutečné ingredience přímo
-                  na cookidoo.cz.
-                </p>
-              )}
-            </div>
+            )}
+            {showDietPicker && (
+              <>
+                <div className="toggleRow toggleRowWide">
+                  {Object.entries(DIET_META).map(([key, meta]) => (
+                    <button
+                      key={key}
+                      type="button"
+                      className={`toggleBtn ${dietFilter.includes(key) ? "active" : ""}`}
+                      onClick={() => toggleDietFilter(key)}
+                    >
+                      {meta.icon} {meta.label}
+                    </button>
+                  ))}
+                </div>
+                {dietFilter.length > 0 && (
+                  <p className="dietDisclaimer">
+                    ⚠️ Štítky jsou odhad podle názvu receptu, ne ověřené složení. U celiakie, těžké
+                    laktózové intolerance nebo alergie si vždy zkontroluj skutečné ingredience přímo
+                    na cookidoo.cz.
+                  </p>
+                )}
+              </>
+            )}
           </div>
-
-          <button className="primaryBtn" onClick={() => setShowPlan(true)}>
-            Spočítat a sestavit jídelníček ✨
-          </button>
         </section>
 
+        <section className="dietFilterBand">
+          <div className="dietFilterInner">
+            <div className="cardHeadRow" style={{ justifyContent: "space-between", marginBottom: showAllergenPicker ? 14 : 0, flexWrap: "wrap", gap: 10 }}>
+              <label className="label" style={{ marginBottom: 0 }}>
+                Vyloučit alergeny/suroviny (nepovinné){allergenFilter.length > 0 && ` — vybráno ${allergenFilter.length}`}
+              </label>
+              <button className="linkBtn" onClick={() => setShowAllergenPicker((s) => !s)}>
+                {showAllergenPicker ? "Zavřít" : "Vybrat alergeny"}
+              </button>
+            </div>
+            {!showAllergenPicker && allergenFilter.length > 0 && (
+              <div className="pantrySelectedRow" style={{ marginTop: 12, paddingBottom: 0, border: "none" }}>
+                {allergenFilter.map((item) => (
+                  <button key={item} type="button" className="toggleBtn toggleBtnSmall active" onClick={() => toggleAllergen(item)}>
+                    {item} ✕
+                  </button>
+                ))}
+              </div>
+            )}
+            {showAllergenPicker && (
+              <>
+                <div className="toggleRow toggleRowWide">
+                  {ALLERGEN_OPTIONS.map((item) => (
+                    <button
+                      key={item}
+                      type="button"
+                      className={`toggleBtn ${allergenFilter.includes(item) ? "active" : ""}`}
+                      onClick={() => toggleAllergen(item)}
+                    >
+                      {item}
+                    </button>
+                  ))}
+                </div>
+                {allergenFilter.length > 0 && (
+                  <p className="dietDisclaimer">
+                    ⚠️ Vylučování je odhad podle názvu receptu, ne ověřené složení — u vážné alergie
+                    vždy zkontroluj skutečné ingredience přímo na cookidoo.cz.
+                  </p>
+                )}
+              </>
+            )}
+          </div>
+        </section>
+
+        <section className="dietFilterBand">
+          <div className="dietFilterInner">
+            <div className="cardHeadRow" style={{ justifyContent: "space-between", marginBottom: showPantryPicker ? 14 : 0, flexWrap: "wrap", gap: 10 }}>
+              <label className="label" style={{ marginBottom: 0 }}>
+                Co mám doma (nepovinné){pantryItems.length > 0 && ` — vybráno ${pantryItems.length}`}
+              </label>
+              <div style={{ display: "flex", alignItems: "center", gap: 14, flexWrap: "wrap" }}>
+                <label className="pantryToggle">
+                  <input type="checkbox" checked={pantryOnly} onChange={(e) => setPantryOnly(e.target.checked)} />
+                  Jen recepty z toho, co mám doma
+                </label>
+                <button className="linkBtn" onClick={() => setShowPantryPicker((s) => !s)}>
+                  {showPantryPicker ? "Zavřít výběr surovin" : "Vybrat suroviny"}
+                </button>
+              </div>
+            </div>
+
+            {!showPantryPicker && pantryItems.length > 0 && (
+              <div className="pantrySelectedRow" style={{ marginTop: 12, paddingBottom: 0, border: "none" }}>
+                {pantryItems.map((item) => (
+                  <button key={item} type="button" className="toggleBtn toggleBtnSmall active" onClick={() => togglePantryItem(item)}>
+                    {item} ✕
+                  </button>
+                ))}
+              </div>
+            )}
+
+            {showPantryPicker && (
+              <>
+                <input
+                  type="text"
+                  className="searchInput"
+                  style={{ marginBottom: 16 }}
+                  placeholder="Hledat surovinu, např. kuřecí, sýr, rýže…"
+                  value={pantrySearch}
+                  onChange={(e) => setPantrySearch(e.target.value)}
+                />
+
+                {pantryItems.length > 0 && (
+                  <div className="pantrySelectedRow">
+                    {pantryItems.map((item) => (
+                      <button key={item} type="button" className="toggleBtn toggleBtnSmall active" onClick={() => togglePantryItem(item)}>
+                        {item} ✕
+                      </button>
+                    ))}
+                    <button className="linkBtn" onClick={() => setPantryItems([])}>Vymazat výběr</button>
+                  </div>
+                )}
+
+                {PANTRY_GROUPS.map((group) => {
+                  const norm = normalizeText(pantrySearch.trim());
+                  const items = norm ? group.items.filter((i) => normalizeText(i).includes(norm)) : group.items;
+                  if (items.length === 0) return null;
+                  return (
+                    <div key={group.label} className="pantryGroup">
+                      <div className="pantryGroupLabel">{group.label}</div>
+                      <div className="toggleRow toggleRowWide toggleRowPantry">
+                        {items.map((item) => (
+                          <button
+                            key={item}
+                            type="button"
+                            className={`toggleBtn toggleBtnSmall ${pantryItems.includes(item) ? "active" : ""}`}
+                            onClick={() => togglePantryItem(item)}
+                          >
+                            {item}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
+
+                <p className="dietDisclaimer">
+                  ⚠️ Suroviny se odhadují z názvu receptu, takže nejde o kompletní seznam ingrediencí.
+                </p>
+              </>
+            )}
+          </div>
+        </section>
+
+        <div className="primaryBtnWrap">
+          <button className="primaryBtn" onClick={() => { setShowPlan(true); setCurrentDayIndex(0); }}>
+            Spočítat a sestavit jídelníček ✨
+          </button>
+        </div>
+        </>
+        )}
+
+        {activeTab === "vaha" && (
+        <>
         {/* ---- SLEDOVÁNÍ VÁHY ---- */}
         <section className="card">
           <div className="cardHeadRow">
@@ -1153,7 +1380,11 @@ export default function App() {
             <p className="subtleNote">Zatím žádné záznamy — zapiš si první váhu a sleduj vývoj v čase.</p>
           )}
         </section>
+        </>
+        )}
 
+        {activeTab === "recepty" && (
+        <>
         {/* ---- VYHLEDAT RECEPTY ---- */}
         <section className="card">
           <div className="cardHeadRow" style={{ justifyContent: "space-between" }}>
@@ -1207,9 +1438,13 @@ export default function App() {
             </>
           )}
         </section>
+        </>
+        )}
 
+        {activeTab === "historie" && (
+        <>
         {/* ---- HISTORIE JÍDELNÍČKŮ ---- */}
-        {planHistory.length > 0 && (
+        {planHistory.length > 0 ? (
           <section className="card">
             <div className="cardHeadRow" style={{ justifyContent: "space-between" }}>
               <div style={{ display: "flex", alignItems: "center", gap: 12 }}>
@@ -1234,8 +1469,16 @@ export default function App() {
               </div>
             )}
           </section>
+        ) : (
+          <section className="card">
+            <p className="subtleNote">Zatím nemáš uložený žádný jídelníček. V záložce Jídelníček sestav plán a klikni na "💾 Uložit do historie".</p>
+          </section>
+        )}
+        </>
         )}
 
+        {activeTab === "recepty" && (
+        <>
         {/* ---- SKRYTÉ RECEPTY ---- */}
         {hiddenRecipeObjs.length > 0 && (
           <section className="card">
@@ -1336,7 +1579,11 @@ export default function App() {
             )}
           </section>
         )}
+        </>
+        )}
 
+        {activeTab === "plan" && (
+        <>
         {/* ---- VÝSLEDEK ---- */}
         {showPlan && (
           <>
@@ -1363,10 +1610,41 @@ export default function App() {
               </div>
             </section>
 
+            {multiDayPlan.length > 1 && (
+              <div className="dayNav noPrint">
+                <button
+                  className="dayNavBtn"
+                  disabled={currentDayIndex === 0}
+                  onClick={() => setCurrentDayIndex((i) => Math.max(0, i - 1))}
+                >
+                  ← Předchozí den
+                </button>
+                <div className="dayDots">
+                  {multiDayPlan.map((day) => (
+                    <button
+                      key={day.dayIndex}
+                      className={`dayDot ${day.dayIndex === currentDayIndex ? "active" : ""}`}
+                      onClick={() => setCurrentDayIndex(day.dayIndex)}
+                    >
+                      {day.dayIndex + 1}
+                    </button>
+                  ))}
+                </div>
+                <button
+                  className="dayNavBtn"
+                  disabled={currentDayIndex === multiDayPlan.length - 1}
+                  onClick={() => setCurrentDayIndex((i) => Math.min(multiDayPlan.length - 1, i + 1))}
+                >
+                  Další den →
+                </button>
+              </div>
+            )}
+
             {multiDayPlan.map((day) => {
               const macros = dayMacros(day.slots);
+              const isCurrent = day.dayIndex === currentDayIndex;
               return (
-              <section key={day.dayIndex} className="dayBlock">
+              <section key={day.dayIndex} className={`dayBlock ${isCurrent ? "" : "dayHiddenScreen"}`}>
                 <div className="dayHeadRow">
                   <h2 className="dayTitle">Den {day.dayIndex + 1}</h2>
                   <span className="dayTotal">
@@ -1493,6 +1771,8 @@ export default function App() {
             )}
           </>
         )}
+        </>
+        )}
       </main>
 
       <footer className="footer">
@@ -1548,6 +1828,35 @@ const css = `
 .main { max-width: 760px; margin: 0 auto; padding: 32px 24px; display: flex; flex-direction: column; gap: 24px; }
 
 .card { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 28px; box-shadow: 0 8px 30px rgba(30, 42, 34, 0.06); }
+
+.dietFilterBand { background: var(--card); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 24px; }
+.dietFilterInner { max-width: 760px; margin: 0 auto; }
+.toggleRowWide { flex-wrap: wrap; }
+.toggleBtnSmall { padding: 6px 12px; font-size: 12.5px; }
+.pantryToggle { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--muted); cursor: pointer; }
+.pantryGroup { margin-bottom: 16px; }
+.pantryGroupLabel { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 8px; }
+.pantrySelectedRow { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; padding-bottom: 16px; border-bottom: 1px dashed var(--line); }
+@media (min-width: 901px) {
+  .dietFilterBand {
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+    box-shadow: 0 4px 16px rgba(30, 42, 34, 0.05);
+  }
+  .dietFilterInner { max-width: 1180px; padding: 0 40px; }
+  .toggleRowWide:not(.toggleRowPantry) { flex-wrap: nowrap; }
+  .toggleRowWide:not(.toggleRowPantry) .toggleBtn { flex: 1; text-align: center; }
+}
+
+.tabBar { position: sticky; top: 0; z-index: 20; background: var(--paper); border-bottom: 1px solid var(--line); }
+.tabBarInner { max-width: 760px; margin: 0 auto; padding: 0 24px; display: flex; gap: 4px; overflow-x: auto; }
+.tabBtn { border: none; background: none; padding: 14px 16px; font-size: 14px; font-weight: 700; color: var(--muted); cursor: pointer; border-bottom: 3px solid transparent; white-space: nowrap; }
+.tabBtn.active { color: var(--herb); border-bottom-color: var(--herb); }
+@media print { .tabBar { display: none !important; } }
 .cardHeadRow { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; }
 .stamp {
   font-family: 'IBM Plex Mono', monospace; font-size: 12px; font-weight: 700; color: #fff;
@@ -1681,5 +1990,15 @@ const css = `
   .resultActions { display: none !important; }
   body, .page { background: #fff !important; }
   .dayBlock { break-inside: avoid; }
+  .dayHiddenScreen { display: flex !important; }
 }
+
+.dayHiddenScreen { display: none; }
+.dayNav { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 4px 4px 0; }
+.dayNavBtn { border: 1.5px solid var(--line); background: var(--card); color: var(--ink); font-size: 13px; font-weight: 700; padding: 9px 16px; border-radius: 10px; cursor: pointer; }
+.dayNavBtn:disabled { opacity: 0.35; cursor: default; }
+.dayNavBtn:not(:disabled):hover { border-color: var(--herb); }
+.dayDots { display: flex; gap: 6px; flex-wrap: wrap; justify-content: center; }
+.dayDot { width: 32px; height: 32px; border-radius: 50%; border: 1.5px solid var(--line); background: var(--card); color: var(--muted); font-size: 13px; font-weight: 700; cursor: pointer; }
+.dayDot.active { background: var(--herb); border-color: var(--herb); color: #fff; }
 `;
