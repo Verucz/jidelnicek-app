@@ -146,15 +146,15 @@ const CURATED = [
   { id: "s7", cat: "snidane", name: "Toust s avokádem a vejcem Benedikt", kcal: 420, icon: "🥑", url: "https://cookidoo.cz/recipes/recipe/cs/r548454" },
   { id: "s8", cat: "snidane", name: "Španělská bramborová omeleta", kcal: 481, icon: "🍳", url: "https://cookidoo.cz/recipes/recipe/cs/r70468" },
   { id: "s9", cat: "snidane", name: "Pletenec se skořicí a datlemi", kcal: 410, icon: "🥐", url: "https://cookidoo.cz/recipes/recipe/cs/r122387" },
-  { id: "s10", cat: "snidane", name: "High protein vanilkový mousse s chia semínky", kcal: 280, icon: "🍮", url: "https://cookidoo.cz/recipes/recipe/cs/r907894" },
+  { id: "s10", cat: "snidane", name: "High protein vanilkový mousse s chia semínky", kcal: 136, icon: "🍮", url: "https://cookidoo.cz/recipes/recipe/cs/r907894", macros: { protein: 8, carbs: 11, fat: 7 } },
   { id: "s11", cat: "snidane", name: "High protein borůvkové muffiny, vařené v páře", kcal: 240, icon: "🧁", url: "https://cookidoo.cz/recipes/recipe/cs/r907893" },
-  { id: "s12", cat: "snidane", name: "Snídaně s lososem a avokádem", kcal: 450, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r587867" },
+  { id: "s12", cat: "snidane", name: "Snídaně s lososem a avokádem", kcal: 215, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r587867", macros: { protein: 11, carbs: 3, fat: 17 } },
   { id: "s13", cat: "snidane", name: "High protein kuličky s tahini a arašídovým máslem", kcal: 220, icon: "🍪", url: "https://cookidoo.cz/recipes/recipe/cs/r907890" },
   { id: "s14", cat: "snidane", name: "Čokoládové palačinky", kcal: 391, icon: "🥞", url: "https://cookidoo.cz/recipes/recipe/cs/r73428" },
   { id: "s15", cat: "snidane", name: "Nadýchané americké palačinky", kcal: 210, icon: "🥞", url: "https://cookidoo.cz/recipes/recipe/cs/r177504" },
   { id: "s16", cat: "snidane", name: "Americké palačinky (Pancakes)", kcal: 131, icon: "🥞", url: "https://cookidoo.cz/recipes/recipe/cs/r88410" },
   { id: "s17", cat: "snidane", name: "Fermentovaná ovesná kaše", kcal: 280, icon: "🥣", url: "https://cookidoo.cz/recipes/recipe/cs/r133828" },
-  { id: "s18", cat: "snidane", name: "Ovesná kaše s hruškami vařenými v páře", kcal: 322, icon: "🍐", url: "https://cookidoo.cz/recipes/recipe/cs/r343444" },
+  { id: "s18", cat: "snidane", name: "Ovesná kaše s hruškami vařenými v páře", kcal: 322, icon: "🍐", url: "https://cookidoo.cz/recipes/recipe/cs/r343444", macros: { protein: 9, carbs: 48, fat: 11 } },
   { id: "s19", cat: "snidane", name: "Ovesná kaše přes noc s lískovými oříšky, jogurtem a mandarinkami", kcal: 340, icon: "🥣", url: "https://cookidoo.cz/recipes/recipe/cs/r915749" },
   { id: "s20", cat: "snidane", name: "Rýžová kaše", kcal: 300, icon: "🍚", url: "https://cookidoo.cz/recipes/recipe/cs/r73432" },
   { id: "s21", cat: "snidane", name: "Křupavé müsli se sušeným ovocem", kcal: 420, icon: "🥣", url: "https://cookidoo.cz/recipes/recipe/cs/r122389" },
@@ -174,7 +174,7 @@ const CURATED = [
   { id: "s35", cat: "snidane", name: "Vrstvený chléb s bazalkovým pestem", kcal: 367, icon: "🍞", url: "https://cookidoo.cz/recipes/recipe/cs/r667070" },
   { id: "s36", cat: "snidane", name: "Coffee Protein Recovery Shake", kcal: 393, icon: "☕", url: "https://cookidoo.cz/recipes/recipe/cs/r332734" },
   { id: "s37", cat: "snidane", name: "Domácí proteinový chlebík", kcal: 220, icon: "🍞", url: "https://cookidoo.cz/recipes/recipe/cs/r347159" },
-  { id: "s38", cat: "snidane", name: "Palačinky s tvarohem", kcal: 320, icon: "🥞", url: "https://cookidoo.cz/recipes/recipe/cs/r52523" },
+  { id: "s38", cat: "snidane", name: "Palačinky s tvarohem", kcal: 252, icon: "🥞", url: "https://cookidoo.cz/recipes/recipe/cs/r52523", macros: { protein: 11, carbs: 27, fat: 11 } },
   { id: "s39", cat: "snidane", name: "Palačinky (Crêpes)", kcal: 280, icon: "🥞", url: "https://cookidoo.cz/recipes/recipe/cs/r54963" },
   { id: "s40", cat: "snidane", name: "Banánové lívance s malinami", kcal: 111, icon: "🍌", url: "https://cookidoo.cz/recipes/recipe/cs/r347156" },
   { id: "s41", cat: "snidane", name: "Celozrnné croissanty", kcal: 244, icon: "🥐", url: "https://cookidoo.cz/recipes/recipe/cs/r805591" },
@@ -192,6 +192,11 @@ const CURATED = [
   { id: "s53", cat: "snidane", name: "Krupicová kaše pro děti", kcal: 250, icon: "🥣", url: "https://cookidoo.cz/recipes/recipe/cs/r772556" },
   { id: "s54", cat: "snidane", name: "Frittata di verdure", kcal: 220, icon: "🍳", url: "https://cookidoo.cz/recipes/recipe/cs/r70083" },
   { id: "s55", cat: "snidane", name: "Mini Frittatas", kcal: 180, icon: "🍳", url: "https://cookidoo.cz/recipes/recipe/cs/r168918" },
+  { id: "s56", cat: "snidane", name: "Jablečná ovesná kaše", kcal: 179, icon: "🍎", url: "https://cookidoo.cz/recipes/recipe/cs/r133742", macros: { protein: 5, carbs: 32, fat: 3 } },
+  { id: "s57", cat: "snidane", name: "Banánové smoothie s arašídy a jogurtem", kcal: 368, icon: "🍌", url: "https://cookidoo.cz/recipes/recipe/cs/r122391", macros: { protein: 13, carbs: 44, fat: 16 } },
+  { id: "s58", cat: "snidane", name: "Tvarohovo-smetanový krém", kcal: 362, icon: "🍮", url: "https://cookidoo.cz/recipes/recipe/cs/r73427", macros: { protein: 14, carbs: 25, fat: 22 } },
+  { id: "s59", cat: "snidane", name: "Muffiny z listového těsta s lososem a avokádem", kcal: 321, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r548459", macros: { protein: 10, carbs: 16, fat: 24 } },
+  { id: "s60", cat: "snidane", name: "Smoothie bowl se špenátem a goji", kcal: 350, icon: "🥣", url: "https://cookidoo.cz/recipes/recipe/cs/r489178", macros: { protein: 10, carbs: 47, fat: 10 } },
 
   // OBĚD
   { id: "o1", cat: "obed", name: "Kuřecí prsa v jogurtové omáčce s bramborami", kcal: 375, icon: "🍗", url: "https://cookidoo.cz/recipes/recipe/cs/r67384" },
@@ -226,7 +231,7 @@ const CURATED = [
   { id: "o30", cat: "obed", name: "Rizoto s parmazánem", kcal: 480, icon: "🧀", url: "https://cookidoo.cz/recipes/recipe/cs/r55042" },
   { id: "o31", cat: "obed", name: "Fazole gigantes v rajčatové omáčce", kcal: 276, icon: "🫘", url: "https://cookidoo.cz/recipes/recipe/cs/r748331" },
   { id: "o32", cat: "obed", name: "Quinoa salát s cizrnou a mangovou salsou", kcal: 380, icon: "🥗", url: "https://cookidoo.cz/recipes/recipe/cs/r145261" },
-  { id: "o33", cat: "obed", name: "Zapečené brambory s lososem a koprem", kcal: 611, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r695896" },
+  { id: "o33", cat: "obed", name: "Zapečené brambory s lososem a koprem", kcal: 611, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r695896", macros: { protein: 38, carbs: 32, fat: 37 } },
   { id: "o34", cat: "obed", name: "Kuřecí plátky na středomořský způsob s bramborovo-květákovou kaší", kcal: 367, icon: "🍗", url: "https://cookidoo.cz/recipes/recipe/cs/r364995" },
   { id: "o35", cat: "obed", name: "Okurkový salát s mortadellou", kcal: 220, icon: "🥒", url: "https://cookidoo.cz/recipes/recipe/cs/r606697" },
   { id: "o36", cat: "obed", name: "Vepřová panenka s omáčkou z červeného vína", kcal: 250, icon: "🍷", url: "https://cookidoo.cz/recipes/recipe/cs/r151406" },
@@ -240,11 +245,11 @@ const CURATED = [
   { id: "o44", cat: "obed", name: "Plněné papriky s rajskou omáčkou", kcal: 717, icon: "🫑", url: "https://cookidoo.cz/recipes/recipe/cs/r52508" },
   { id: "o45", cat: "obed", name: "Masové kuličky s rajskou omáčkou", kcal: 359, icon: "🍅", url: "https://cookidoo.cz/recipes/recipe/cs/r55041" },
   { id: "o46", cat: "obed", name: "Kuřecí nugety s okurkovým dipem", kcal: 380, icon: "🍗", url: "https://cookidoo.cz/recipes/recipe/cs/r91831" },
-  { id: "o47", cat: "obed", name: "Treska v alobalu s mrkvovými nudlemi", kcal: 357, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r69944" },
+  { id: "o47", cat: "obed", name: "Treska v alobalu s mrkvovými nudlemi", kcal: 357, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r69944", macros: { protein: 34, carbs: 47, fat: 5 } },
   { id: "o48", cat: "obed", name: "Treska s bramborovo-dýňovou krustou a vinnou omáčkou", kcal: 355, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r608418", macros: { protein: 27, carbs: 13, fat: 21 } },
   { id: "o49", cat: "obed", name: "Gnocchi s lososem a hráškem", kcal: 917, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r133977" },
   { id: "o50", cat: "obed", name: "Losos v balíčku se sušenými rajčaty a kuskusem", kcal: 460, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r132024" },
-  { id: "o51", cat: "obed", name: "Treska se zeleninou a rýží vařená v páře", kcal: 380, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r73540" },
+  { id: "o51", cat: "obed", name: "Treska se zeleninou a rýží vařená v páře", kcal: 480, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r73540", macros: { protein: 24, carbs: 71, fat: 10 } },
   { id: "o52", cat: "obed", name: "Ryba po řecku", kcal: 340, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r52561" },
   { id: "o53", cat: "obed", name: "Krevetová polévka s chorizem a bramborami", kcal: 490, icon: "🍤", url: "https://cookidoo.cz/recipes/recipe/cs/r752527" },
   { id: "o54", cat: "obed", name: "Sicilský krevetový salát", kcal: 187, icon: "🍤", url: "https://cookidoo.cz/recipes/recipe/cs/r151279" },
@@ -261,7 +266,7 @@ const CURATED = [
   { id: "o65", cat: "obed", name: "Kari nudle s vepřovým masem", kcal: 456, icon: "🍜", url: "https://cookidoo.cz/recipes/recipe/cs/r496241" },
   { id: "o66", cat: "obed", name: "Tagliatelle s hříbky a karamelizovanými rajčaty", kcal: 843, icon: "🍝", url: "https://cookidoo.cz/recipes/recipe/cs/r325139" },
   { id: "o67", cat: "obed", name: "Salát z nových brambor s uzeným pstruhem", kcal: 643, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r133728" },
-  { id: "o68", cat: "obed", name: "Kuřecí kousky s teplým bramborovým salátem", kcal: 473, icon: "🥔", url: "https://cookidoo.cz/recipes/recipe/cs/r151397" },
+  { id: "o68", cat: "obed", name: "Kuřecí kousky s teplým bramborovým salátem", kcal: 473, icon: "🥔", url: "https://cookidoo.cz/recipes/recipe/cs/r151397", macros: { protein: 52, carbs: 30, fat: 14 } },
   { id: "o69", cat: "obed", name: "Pekingské kuře", kcal: 434, icon: "🍗", url: "https://cookidoo.cz/recipes/recipe/cs/r105688" },
   { id: "o70", cat: "obed", name: "Grilované vepřové špízy s kurkumou", kcal: 127, icon: "🍢", url: "https://cookidoo.cz/recipes/recipe/cs/r150775" },
   { id: "o71", cat: "obed", name: "Zeleninový salát s kuřecími prsy a hořčičným dresinkem", kcal: 361, icon: "🥗", url: "https://cookidoo.cz/recipes/recipe/cs/r234911" },
@@ -274,7 +279,7 @@ const CURATED = [
   { id: "o78", cat: "obed", name: "Treska v páře s italskou rajčatovou omáčkou a dušenými bramborami", kcal: 533, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r775903", macros: { protein: 48, carbs: 52, fat: 16 } },
   { id: "o79", cat: "obed", name: "Losos s krémovou koprovou omáčkou a basmati rýží", kcal: 853, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r132023", macros: { protein: 34, carbs: 53, fat: 55 } },
   { id: "o80", cat: "obed", name: "Krůtí plátky na houbách", kcal: 307, icon: "🍄", url: "https://cookidoo.cz/recipes/recipe/cs/r144166" },
-  { id: "o81", cat: "obed", name: "Krůtí stehno se slaninou a bramborami", kcal: 381, icon: "🍗", url: "https://cookidoo.cz/recipes/recipe/cs/r98612" },
+  { id: "o81", cat: "obed", name: "Krůtí stehno se slaninou a bramborami", kcal: 381, icon: "🍗", url: "https://cookidoo.cz/recipes/recipe/cs/r98612", macros: { protein: 38, carbs: 15, fat: 17 } },
   { id: "o82", cat: "obed", name: "Pomalu vařené krémové krůtí s houbami", kcal: 574, icon: "🍄", url: "https://cookidoo.cz/recipes/recipe/cs/r623525" },
   { id: "o83", cat: "obed", name: "Kuřecí špízy s kmínovou rýží a teplým zeleninovým salátem", kcal: 431, icon: "🍢", url: "https://cookidoo.cz/recipes/recipe/cs/r151400" },
   { id: "o84", cat: "obed", name: "Horní kuřecí stehna pečená na zelí", kcal: 689, icon: "🍗", url: "https://cookidoo.cz/recipes/recipe/cs/r902162" },
@@ -289,14 +294,14 @@ const CURATED = [
   { id: "o93", cat: "obed", name: "Penne se slaninou a zeleninou", kcal: 480, icon: "🍝", url: "https://cookidoo.cz/recipes/recipe/cs/r625136" },
   { id: "o94", cat: "obed", name: "Restované kuřecí proužky se slaninou", kcal: 320, icon: "🍗", url: "https://cookidoo.cz/recipes/recipe/cs/r543932" },
   { id: "o95", cat: "obed", name: "Ryba s bramborami a rajčatovou omáčkou", kcal: 380, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r55023" },
-  { id: "o96", cat: "obed", name: "Ryba s bylinkovo-sýrovou krustou, bramborami a květákem", kcal: 400, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r147531" },
+  { id: "o96", cat: "obed", name: "Ryba s bylinkovo-sýrovou krustou, bramborami a květákem", kcal: 725, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r147531", macros: { protein: 47, carbs: 50, fat: 36 } },
   { id: "o97", cat: "obed", name: "Vepřové maso na česneku se zeleninou a bramborami", kcal: 480, icon: "🧄", url: "https://cookidoo.cz/recipes/recipe/cs/r67388" },
   { id: "o98", cat: "obed", name: "Marinované filety z bílé ryby s omáčkou chermoula a kuskusovým salátem", kcal: 420, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r170888" },
   { id: "o99", cat: "obed", name: "Vejce na páře á la flamenca", kcal: 377, icon: "🥚", url: "https://cookidoo.cz/recipes/recipe/cs/r116718" },
   { id: "o100", cat: "obed", name: "Kuřecí prsa v jogurtové omáčce s bramborami", kcal: 375, icon: "🍗", url: "https://cookidoo.cz/recipes/recipe/cs/r67384", macros: { protein: 36, carbs: 36, fat: 9 } },
   { id: "o101", cat: "obed", name: "Brokolice s těstovinami a ančovičkami", kcal: 578, icon: "🍝", url: "https://cookidoo.cz/recipes/recipe/cs/r136000" },
   { id: "o102", cat: "obed", name: "Kuřecí prsa plněná avokádem s barevnou rýží", kcal: 1022, icon: "🥑", url: "https://cookidoo.cz/recipes/recipe/cs/r548461", macros: { protein: 49, carbs: 64, fat: 61 } },
-  { id: "o103", cat: "obed", name: "Krůtí plátky s omáčkou z hrášku a bramborovým pyré", kcal: 400, icon: "🍗", url: "https://cookidoo.cz/recipes/recipe/cs/r133731" },
+  { id: "o103", cat: "obed", name: "Krůtí plátky s omáčkou z hrášku a bramborovým pyré", kcal: 758, icon: "🍗", url: "https://cookidoo.cz/recipes/recipe/cs/r133731", macros: { protein: 34, carbs: 55, fat: 49 } },
   { id: "o104", cat: "obed", name: "Masové kuličky s máslovou dýní a bramborem", kcal: 420, icon: "🎃", url: "https://cookidoo.cz/recipes/recipe/cs/r113018" },
   { id: "o105", cat: "obed", name: "Středomořský kuřecí koláč", kcal: 380, icon: "🥧", url: "https://cookidoo.cz/recipes/recipe/cs/r244774" },
   { id: "o106", cat: "obed", name: "Lososový salát s quinou, fetou a míchanou zeleninou", kcal: 534, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r151280" },
@@ -317,7 +322,7 @@ const CURATED = [
   { id: "o121", cat: "obed", name: "Kuřecí plátky s cuketou", kcal: 240, icon: "🥒", url: "https://cookidoo.cz/recipes/recipe/cs/r97780" },
   { id: "o122", cat: "obed", name: "Jehněčí kotlety sous-vide s hráškovo-bramborovým pyré", kcal: 686, icon: "🐑", url: "https://cookidoo.cz/recipes/recipe/cs/r764053" },
   { id: "o123", cat: "obed", name: "Jehněčí kotlety, bramborové pyré se špenátem a mátovou omáčkou", kcal: 793, icon: "🐑", url: "https://cookidoo.cz/recipes/recipe/cs/r433268" },
-  { id: "o124", cat: "obed", name: "Jehněčí masové kuličky s kuskusem, jogurtem a mátou", kcal: 600, icon: "🍡", url: "https://cookidoo.cz/recipes/recipe/cs/r142067" },
+  { id: "o124", cat: "obed", name: "Jehněčí masové kuličky s kuskusem, jogurtem a mátou", kcal: 600, icon: "🍡", url: "https://cookidoo.cz/recipes/recipe/cs/r142067", macros: { protein: 38, carbs: 46, fat: 29 } },
   { id: "o125", cat: "obed", name: "Kuřecí závitky s bramborami", kcal: 420, icon: "🍗", url: "https://cookidoo.cz/recipes/recipe/cs/r52504" },
   { id: "o126", cat: "obed", name: "Gnocchi s rajčatovou omáčkou, bazalkou a parmazánem", kcal: 568, icon: "🍝", url: "https://cookidoo.cz/recipes/recipe/cs/r126314" },
   { id: "o127", cat: "obed", name: "Špagety alla Norma", kcal: 495, icon: "🍝", url: "https://cookidoo.cz/recipes/recipe/cs/r135239" },
@@ -338,6 +343,26 @@ const CURATED = [
   { id: "o142", cat: "obed", name: "Dušené vepřové maso se ciderem", kcal: 812, icon: "🍎", url: "https://cookidoo.cz/recipes/recipe/cs/r143471", macros: { protein: 58, carbs: 40, fat: 43 } },
   { id: "o143", cat: "obed", name: "Trhané vepřové maso", kcal: 268, icon: "🍖", url: "https://cookidoo.cz/recipes/recipe/cs/r404192", macros: { protein: 27, carbs: 12, fat: 12 } },
   { id: "o144", cat: "obed", name: "Vepřové maso v omáčce s fazolemi", kcal: 411, icon: "🫘", url: "https://cookidoo.cz/recipes/recipe/cs/r451023", macros: { protein: 34, carbs: 55, fat: 4 } },
+  { id: "o145", cat: "obed", name: "Losos s brokolicí, rýží a koprovou omáčkou", kcal: 530, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r113017", macros: { protein: 44, carbs: 45, fat: 20 } },
+  { id: "o146", cat: "obed", name: "Hovězí svíčková a žampióny s květákovým salátem", kcal: 501, icon: "🥩", url: "https://cookidoo.cz/recipes/recipe/cs/r798663", macros: { protein: 34, carbs: 16, fat: 33 } },
+  { id: "o147", cat: "obed", name: "Losos s rajčatovým glazé, brokolicí a rýží basmati", kcal: 531, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r142062", macros: { protein: 31, carbs: 73, fat: 13 } },
+  { id: "o148", cat: "obed", name: "Tuňáková pizza s olivami", kcal: 346, icon: "🍕", url: "https://cookidoo.cz/recipes/recipe/cs/r66956", macros: { protein: 14, carbs: 39, fat: 14 } },
+  { id: "o149", cat: "obed", name: "Mini burgery", kcal: 272, icon: "🍔", url: "https://cookidoo.cz/recipes/recipe/cs/r908813", macros: { protein: 13, carbs: 22, fat: 15 } },
+  { id: "o150", cat: "obed", name: "Kuřecí nudlová polévka se sýrovými knedlíčky", kcal: 436, icon: "🍲", url: "https://cookidoo.cz/recipes/recipe/cs/r140134", macros: { protein: 34, carbs: 30, fat: 20 } },
+  { id: "o151", cat: "obed", name: "Rychlá polévka Pho", kcal: 527, icon: "🍜", url: "https://cookidoo.cz/recipes/recipe/cs/r119793", macros: { protein: 44, carbs: 44, fat: 21 } },
+  { id: "o152", cat: "obed", name: "Kari z mletého vepřového masa a brambor", kcal: 801, icon: "🍛", url: "https://cookidoo.cz/recipes/recipe/cs/r806775", macros: { protein: 24, carbs: 54, fat: 51 } },
+  { id: "o153", cat: "obed", name: "Krevetová polévka s batáty", kcal: 585, icon: "🍤", url: "https://cookidoo.cz/recipes/recipe/cs/r710353", macros: { protein: 30, carbs: 37, fat: 36 } },
+  { id: "o154", cat: "obed", name: "Lososový burger", kcal: 204, icon: "🍔", url: "https://cookidoo.cz/recipes/recipe/cs/r126163", macros: { protein: 16, carbs: 8, fat: 12 } },
+  { id: "o155", cat: "obed", name: "Gnocchi s avokádem", kcal: 431, icon: "🥑", url: "https://cookidoo.cz/recipes/recipe/cs/r136351", macros: { protein: 8, carbs: 47, fat: 25 } },
+  { id: "o156", cat: "obed", name: "Bramborovo-lososové karbanátky s brokolicí a avokádový salát", kcal: 737, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r90000", macros: { protein: 27, carbs: 31, fat: 55 } },
+  { id: "o157", cat: "obed", name: "Bramborový salát s lososem a avokádem", kcal: 648, icon: "🥑", url: "https://cookidoo.cz/recipes/recipe/cs/r696070", macros: { protein: 30, carbs: 46, fat: 36 } },
+  { id: "o158", cat: "obed", name: "Kuřecí nudličky v rajčatové šťávě s bramborovými plátky", kcal: 305, icon: "🍅", url: "https://cookidoo.cz/recipes/recipe/cs/r69975", macros: { protein: 38, carbs: 30, fat: 3 } },
+  { id: "o159", cat: "obed", name: "Krůtí nudličky s kedlubnou, bramborami a kerblíkovou omáčkou", kcal: 544, icon: "🍗", url: "https://cookidoo.cz/recipes/recipe/cs/r147536", macros: { protein: 46, carbs: 44, fat: 18 } },
+  { id: "o160", cat: "obed", name: "Dušené kuřecí paličky v bylinkovém másle s bramborami", kcal: 709, icon: "🍗", url: "https://cookidoo.cz/recipes/recipe/cs/r67385", macros: { protein: 66, carbs: 29, fat: 37 } },
+  { id: "o161", cat: "obed", name: "Krůtí sekaná s chorizem a bramborami", kcal: 502, icon: "🌶️", url: "https://cookidoo.cz/recipes/recipe/cs/r76794", macros: { protein: 45, carbs: 48, fat: 14 } },
+  { id: "o162", cat: "obed", name: "Krůta na pomerančích s bramborami a kedlubnami", kcal: 353, icon: "🍊", url: "https://cookidoo.cz/recipes/recipe/cs/r154941", macros: { protein: 36, carbs: 28, fat: 9 } },
+  { id: "o163", cat: "obed", name: "Mexický quinoa salát", kcal: 374, icon: "🌮", url: "https://cookidoo.cz/recipes/recipe/cs/r806941", macros: { protein: 14, carbs: 43, fat: 13 } },
+  { id: "o164", cat: "obed", name: "Pestrý salát s kuskusem, ráno běžíš za busem", kcal: 271, icon: "🥗", url: "https://cookidoo.cz/recipes/recipe/cs/r365259", macros: { protein: 12, carbs: 37, fat: 8 } },
 
   // VEČEŘE
   { id: "v1", cat: "vecere", name: "Losos s bramborovou kaší", kcal: 221, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r87071" },
@@ -357,9 +382,9 @@ const CURATED = [
   { id: "v15", cat: "vecere", name: "Zeleninová polévka s kuřecími prsy a vejci", kcal: 536, icon: "🥚", url: "https://cookidoo.cz/recipes/recipe/cs/r63077", macros: { protein: 46, carbs: 40, fat: 20 } },
   { id: "v16", cat: "vecere", name: "Polévka z ředkvičkových listů", kcal: 110, icon: "🥬", url: "https://cookidoo.cz/recipes/recipe/cs/r336921" },
   { id: "v17", cat: "vecere", name: "Zelňačka", kcal: 161, icon: "🥬", url: "https://cookidoo.cz/recipes/recipe/cs/r777702" },
-  { id: "v18", cat: "vecere", name: "Frittata s batáty, cuketou a kozím sýrem", kcal: 330, icon: "🍳", url: "https://cookidoo.cz/recipes/recipe/cs/r142064" },
-  { id: "v19", cat: "vecere", name: "Polévka Tom Yum", kcal: 90, icon: "🍜", url: "https://cookidoo.cz/recipes/recipe/cs/r150774" },
-  { id: "v20", cat: "vecere", name: "Celerová polévka se zakysanou smetanou", kcal: 140, icon: "🥣", url: "https://cookidoo.cz/recipes/recipe/cs/r98089" },
+  { id: "v18", cat: "vecere", name: "Frittata s batáty, cuketou a kozím sýrem", kcal: 330, icon: "🍳", url: "https://cookidoo.cz/recipes/recipe/cs/r142064", macros: { protein: 16, carbs: 16, fat: 22 } },
+  { id: "v19", cat: "vecere", name: "Polévka Tom Yum", kcal: 107, icon: "🍜", url: "https://cookidoo.cz/recipes/recipe/cs/r150774", macros: { protein: 10, carbs: 11, fat: 3 } },
+  { id: "v20", cat: "vecere", name: "Celerová polévka se zakysanou smetanou", kcal: 147, icon: "🥣", url: "https://cookidoo.cz/recipes/recipe/cs/r98089", macros: { protein: 4, carbs: 15, fat: 10 } },
   { id: "v21", cat: "vecere", name: "Salát s mangem, červenou čekankou a quinoou", kcal: 334, icon: "🥗", url: "https://cookidoo.cz/recipes/recipe/cs/r154938" },
   { id: "v22", cat: "vecere", name: "Okurkový salát", kcal: 60, icon: "🥒", url: "https://cookidoo.cz/recipes/recipe/cs/r52531" },
   { id: "v23", cat: "vecere", name: "Šopský salát", kcal: 180, icon: "🍅", url: "https://cookidoo.cz/recipes/recipe/cs/r52530" },
@@ -425,10 +450,10 @@ const CURATED = [
   { id: "v83", cat: "vecere", name: "Pstruh na páře a květákové pyré", kcal: 340, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r154976" },
   { id: "v84", cat: "vecere", name: "Pstruh se zelenou čočkou", kcal: 400, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r127911" },
   { id: "v85", cat: "vecere", name: "Pstruh s celerovým pyré a omáčkou z potočnice", kcal: 350, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r337738" },
-  { id: "v86", cat: "vecere", name: "Kuskusový salát s baby špenátem, fetou a česnekovou zálivkou", kcal: 320, icon: "🥗", url: "https://cookidoo.cz/recipes/recipe/cs/r806780" },
+  { id: "v86", cat: "vecere", name: "Kuskusový salát s baby špenátem, fetou a česnekovou zálivkou", kcal: 457, icon: "🥗", url: "https://cookidoo.cz/recipes/recipe/cs/r806780", macros: { protein: 17, carbs: 41, fat: 24 } },
   { id: "v87", cat: "vecere", name: "Tabouleh", kcal: 180, icon: "🥗", url: "https://cookidoo.cz/recipes/recipe/cs/r146148" },
   { id: "v88", cat: "vecere", name: "Tabouleh s boby", kcal: 220, icon: "🫘", url: "https://cookidoo.cz/recipes/recipe/cs/r433265" },
-  { id: "v89", cat: "vecere", name: "Quinoa tabouleh", kcal: 200, icon: "🥗", url: "https://cookidoo.cz/recipes/recipe/cs/r144320" },
+  { id: "v89", cat: "vecere", name: "Quinoa tabouleh", kcal: 286, icon: "🥗", url: "https://cookidoo.cz/recipes/recipe/cs/r144320", macros: { protein: 9, carbs: 22, fat: 16 } },
   { id: "v90", cat: "vecere", name: "Chřestový salát s mangem", kcal: 220, icon: "🥭", url: "https://cookidoo.cz/recipes/recipe/cs/r608414" },
   { id: "v91", cat: "vecere", name: "Krevetový salát s avokádem a skleněnými nudlemi", kcal: 280, icon: "🍤", url: "https://cookidoo.cz/recipes/recipe/cs/r548462" },
   { id: "v92", cat: "vecere", name: "Krevetový vývar v thajském stylu a pikantní jablka", kcal: 200, icon: "🍜", url: "https://cookidoo.cz/recipes/recipe/cs/r151274" },
@@ -441,6 +466,15 @@ const CURATED = [
   { id: "v99", cat: "vecere", name: "Slaný koláč Quiche Lorraine", kcal: 380, icon: "🥧", url: "https://cookidoo.cz/recipes/recipe/cs/r55013" },
   { id: "v100", cat: "vecere", name: "Treska s petrželkovou krustou na zelené čočce", kcal: 385, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r119792", macros: { protein: 31, carbs: 35, fat: 17 } },
   { id: "v101", cat: "vecere", name: "Treska v páře s petrželovou krustou, novými bramborami a cuketou", kcal: 360, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r353113", macros: { protein: 42, carbs: 39, fat: 4 } },
+  { id: "v102", cat: "vecere", name: "Houbový Stroganoff", kcal: 218, icon: "🍄", url: "https://cookidoo.cz/recipes/recipe/cs/r142069", macros: { protein: 4, carbs: 7, fat: 19 } },
+  { id: "v103", cat: "vecere", name: "Dýňové stew s cizrnou a kadeřavou kapustou", kcal: 368, icon: "🎃", url: "https://cookidoo.cz/recipes/recipe/cs/r792075", macros: { protein: 12, carbs: 19, fat: 26 } },
+  { id: "v104", cat: "vecere", name: "Kuřecí polévka s kukuřicí a s bylinkovými knedlíčky", kcal: 361, icon: "🌽", url: "https://cookidoo.cz/recipes/recipe/cs/r121277", macros: { protein: 21, carbs: 47, fat: 10 } },
+  { id: "v105", cat: "vecere", name: "Kuřecí polévka s játrovými knedlíčky", kcal: 291, icon: "🍲", url: "https://cookidoo.cz/recipes/recipe/cs/r52545", macros: { protein: 20, carbs: 16, fat: 15 } },
+  { id: "v106", cat: "vecere", name: "Krémová polévka z rukoly", kcal: 216, icon: "🥬", url: "https://cookidoo.cz/recipes/recipe/cs/r126319", macros: { protein: 3, carbs: 18, fat: 16 } },
+  { id: "v107", cat: "vecere", name: "Drůbeží vývar", kcal: 173, icon: "🍲", url: "https://cookidoo.cz/recipes/recipe/cs/r709126", macros: { protein: 13, carbs: 9, fat: 2 } },
+  { id: "v108", cat: "vecere", name: "Naklíčená quinoa s RAW zeleninou", kcal: 345, icon: "🥗", url: "https://cookidoo.cz/recipes/recipe/cs/r138444", macros: { protein: 12, carbs: 36, fat: 18 } },
+  { id: "v109", cat: "vecere", name: "Rajčata plněná pohankou", kcal: 261, icon: "🍅", url: "https://cookidoo.cz/recipes/recipe/cs/r379767", macros: { protein: 9, carbs: 36, fat: 9 } },
+  { id: "v110", cat: "vecere", name: "Quinoa salát se zeleninou a bylinkami", kcal: 360, icon: "🥗", url: "https://cookidoo.cz/recipes/recipe/cs/r134335", macros: { protein: 7, carbs: 35, fat: 20 } },
 
   // SVAČINY
   { id: "sv1", cat: "svacina", name: "Jahodovo-jogurtové smoothie s chia semínky", kcal: 87, icon: "🍓", url: "https://cookidoo.cz/recipes/recipe/cs/r177507" },
@@ -450,21 +484,21 @@ const CURATED = [
   { id: "sv5", cat: "svacina", name: "Domácí jogurt zalitý horkým ovocem", kcal: 191, icon: "🫐", url: "https://cookidoo.cz/recipes/recipe/cs/r122393" },
   { id: "sv6", cat: "svacina", name: "Bramborová kaše (malá porce)", kcal: 200, icon: "🥔", url: "https://cookidoo.cz/recipes/recipe/cs/r770148" },
   { id: "sv7", cat: "svacina", name: "Ovčí jogurt", kcal: 150, icon: "🐑", url: "https://cookidoo.cz/recipes/recipe/cs/r539668" },
-  { id: "sv8", cat: "svacina", name: "Bílý a kokosový jogurt", kcal: 180, icon: "🥥", url: "https://cookidoo.cz/recipes/recipe/cs/r6875" },
+  { id: "sv8", cat: "svacina", name: "Bílý a kokosový jogurt", kcal: 180, icon: "🥥", url: "https://cookidoo.cz/recipes/recipe/cs/r6875", macros: { protein: 9, carbs: 13, fat: 10 } },
   { id: "sv9", cat: "svacina", name: "Zeleninové smoothie", kcal: 120, icon: "🥬", url: "https://cookidoo.cz/recipes/recipe/cs/r91854" },
   { id: "sv10", cat: "svacina", name: "Kozí jogurt", kcal: 140, icon: "🐐", url: "https://cookidoo.cz/recipes/recipe/cs/r539669" },
   { id: "sv11", cat: "svacina", name: "Borůvkový jogurt", kcal: 130, icon: "🫐", url: "https://cookidoo.cz/recipes/recipe/cs/r539667" },
   { id: "sv12", cat: "svacina", name: "Řecký jogurt", kcal: 150, icon: "🥛", url: "https://cookidoo.cz/recipes/recipe/cs/r539670" },
-  { id: "sv13", cat: "svacina", name: "Ovocný pohár s jogurtem", kcal: 418, icon: "🍨", url: "https://cookidoo.cz/recipes/recipe/cs/r73424" },
+  { id: "sv13", cat: "svacina", name: "Ovocný pohár s jogurtem", kcal: 418, icon: "🍨", url: "https://cookidoo.cz/recipes/recipe/cs/r73424", macros: { protein: 8, carbs: 37, fat: 26 } },
   { id: "sv14", cat: "svacina", name: "Tvarohová pomazánka s koprem", kcal: 220, icon: "🧀", url: "https://cookidoo.cz/recipes/recipe/cs/r52557" },
   { id: "sv15", cat: "svacina", name: "Česnekovo sýrová pomazánka", kcal: 240, icon: "🧄", url: "https://cookidoo.cz/recipes/recipe/cs/r52644" },
   { id: "sv16", cat: "svacina", name: "Avokádová pomazánka", kcal: 210, icon: "🥑", url: "https://cookidoo.cz/recipes/recipe/cs/r67020" },
-  { id: "sv17", cat: "svacina", name: "Cizrnová pomazánka", kcal: 200, icon: "🫘", url: "https://cookidoo.cz/recipes/recipe/cs/r87099" },
+  { id: "sv17", cat: "svacina", name: "Cizrnová pomazánka", kcal: 98, icon: "🫘", url: "https://cookidoo.cz/recipes/recipe/cs/r87099", macros: { protein: 3, carbs: 5, fat: 8 } },
   { id: "sv18", cat: "svacina", name: "Liptovská pomazánka", kcal: 230, icon: "🧀", url: "https://cookidoo.cz/recipes/recipe/cs/r69983" },
   { id: "sv19", cat: "svacina", name: "Energetické tyčinky plné ovoce a ořechů", kcal: 214, icon: "🥜", url: "https://cookidoo.cz/recipes/recipe/cs/r317152" },
-  { id: "sv20", cat: "svacina", name: "Sladce pikantní ořechy", kcal: 250, icon: "🥜", url: "https://cookidoo.cz/recipes/recipe/cs/r126317" },
+  { id: "sv20", cat: "svacina", name: "Sladce pikantní ořechy", kcal: 389, icon: "🥜", url: "https://cookidoo.cz/recipes/recipe/cs/r126317", macros: { protein: 11, carbs: 24, fat: 30 } },
   { id: "sv21", cat: "svacina", name: "Pečené ořechy na sladko", kcal: 260, icon: "🌰", url: "https://cookidoo.cz/recipes/recipe/cs/r81187" },
-  { id: "sv22", cat: "svacina", name: "Energy džus", kcal: 110, icon: "🧃", url: "https://cookidoo.cz/recipes/recipe/cs/r91865" },
+  { id: "sv22", cat: "svacina", name: "Energy džus", kcal: 125, icon: "🧃", url: "https://cookidoo.cz/recipes/recipe/cs/r91865", macros: { protein: 1, carbs: 30, fat: 0 } },
   { id: "sv23", cat: "svacina", name: "Hermelínová pěna", kcal: 240, icon: "🧀", url: "https://cookidoo.cz/recipes/recipe/cs/r52559" },
   { id: "sv24", cat: "svacina", name: "Čokoládová pěna", kcal: 250, icon: "🍫", url: "https://cookidoo.cz/recipes/recipe/cs/r6863" },
   { id: "sv25", cat: "svacina", name: "Ovocné pyré", kcal: 90, icon: "🍑", url: "https://cookidoo.cz/recipes/recipe/cs/r82716" },
@@ -478,7 +512,7 @@ const CURATED = [
   { id: "sv33", cat: "svacina", name: "Topinamburové chipsy", kcal: 140, icon: "🥔", url: "https://cookidoo.cz/recipes/recipe/cs/r361015" },
   { id: "sv34", cat: "svacina", name: "Švestková granola (bez cukru)", kcal: 320, icon: "🥣", url: "https://cookidoo.cz/recipes/recipe/cs/r541260" },
   { id: "sv35", cat: "svacina", name: "Základní granola", kcal: 350, icon: "🥣", url: "https://cookidoo.cz/recipes/recipe/cs/r541256" },
-  { id: "sv36", cat: "svacina", name: "Low Carb Granola", kcal: 220, icon: "🥣", url: "https://cookidoo.cz/recipes/recipe/cs/r795074" },
+  { id: "sv36", cat: "svacina", name: "Low Carb Granola", kcal: 269, icon: "🥣", url: "https://cookidoo.cz/recipes/recipe/cs/r795074", macros: { protein: 7, carbs: 12, fat: 21 } },
   { id: "sv37", cat: "svacina", name: "Zeleninovo ovocný salát", kcal: 100, icon: "🥗", url: "https://cookidoo.cz/recipes/recipe/cs/r54985" },
   { id: "sv38", cat: "svacina", name: "Jahodový koktejl", kcal: 130, icon: "🍓", url: "https://cookidoo.cz/recipes/recipe/cs/r55005" },
   { id: "sv39", cat: "svacina", name: "Citrusové smoothie s jahodami", kcal: 76, icon: "🍓", url: "https://cookidoo.cz/recipes/recipe/cs/r91863" },
@@ -499,6 +533,12 @@ const CURATED = [
   { id: "sv54", cat: "svacina", name: "Banánovo-arašídové cookies (bez lepku)", kcal: 210, icon: "🍪", url: "https://cookidoo.cz/recipes/recipe/cs/r601573" },
   { id: "sv55", cat: "svacina", name: "Terina s kachními játry a portským vínem", kcal: 320, icon: "🦆", url: "https://cookidoo.cz/recipes/recipe/cs/r134451", macros: { protein: 22, carbs: 4, fat: 24 } },
   { id: "sv56", cat: "svacina", name: "Vepřenky", kcal: 332, icon: "🍖", url: "https://cookidoo.cz/recipes/recipe/cs/r52507", macros: { protein: 25, carbs: 4, fat: 22 } },
+  { id: "sv57", cat: "svacina", name: "Smoothie s čokoládou na doplnění energie", kcal: 510, icon: "🍫", url: "https://cookidoo.cz/recipes/recipe/cs/r147573", macros: { protein: 14, carbs: 46, fat: 28 } },
+  { id: "sv58", cat: "svacina", name: "Mangové lassi", kcal: 104, icon: "🥭", url: "https://cookidoo.cz/recipes/recipe/cs/r177500", macros: { protein: 3, carbs: 21, fat: 2 } },
+  { id: "sv59", cat: "svacina", name: "Jogurtový mug cake", kcal: 203, icon: "🧁", url: "https://cookidoo.cz/recipes/recipe/cs/r366714", macros: { protein: 7, carbs: 37, fat: 4 } },
+  { id: "sv60", cat: "svacina", name: "Vanilkový kešu jogurt (veganský)", kcal: 170, icon: "🥥", url: "https://cookidoo.cz/recipes/recipe/cs/r539673", macros: { protein: 5, carbs: 14, fat: 11 } },
+  { id: "sv61", cat: "svacina", name: "Salátový refresh", kcal: 60, icon: "🥬", url: "https://cookidoo.cz/recipes/recipe/cs/r120138", macros: { protein: 1, carbs: 12, fat: 0 } },
+  { id: "sv62", cat: "svacina", name: "Paštika z uzeného lososa a kopru", kcal: 230, icon: "🐟", url: "https://cookidoo.cz/recipes/recipe/cs/r69765", macros: { protein: 10, carbs: 2, fat: 21 } },
 ].map((r) => ({ ...r, verified: true, custom: false, diet: classifyDiet(r.name) }));
 
 /* ===========================================================
@@ -1168,8 +1208,8 @@ export default function App() {
         </section>
 
         {/* ---- DIETNÍ FILTR (přes celou šířku obrazovky na PC) ---- */}
-        <section className="dietFilterBand">
-          <div className="dietFilterInner">
+        <section className="card">
+          <div>
             <div className="cardHeadRow" style={{ justifyContent: "space-between", marginBottom: showDietPicker ? 14 : 0, flexWrap: "wrap", gap: 10 }}>
               <label className="label" style={{ marginBottom: 0 }}>
                 Dietní omezení (nepovinné){dietFilter.length > 0 && ` — vybráno ${dietFilter.length}`}
@@ -1213,8 +1253,8 @@ export default function App() {
           </div>
         </section>
 
-        <section className="dietFilterBand">
-          <div className="dietFilterInner">
+        <section className="card">
+          <div>
             <div className="cardHeadRow" style={{ justifyContent: "space-between", marginBottom: showAllergenPicker ? 14 : 0, flexWrap: "wrap", gap: 10 }}>
               <label className="label" style={{ marginBottom: 0 }}>
                 Vyloučit alergeny/suroviny (nepovinné){allergenFilter.length > 0 && ` — vybráno ${allergenFilter.length}`}
@@ -1257,8 +1297,8 @@ export default function App() {
           </div>
         </section>
 
-        <section className="dietFilterBand">
-          <div className="dietFilterInner">
+        <section className="card">
+          <div>
             <div className="cardHeadRow" style={{ justifyContent: "space-between", marginBottom: showPantryPicker ? 14 : 0, flexWrap: "wrap", gap: 10 }}>
               <label className="label" style={{ marginBottom: 0 }}>
                 Co mám doma (nepovinné){pantryItems.length > 0 && ` — vybráno ${pantryItems.length}`}
@@ -1829,28 +1869,12 @@ const css = `
 
 .card { background: var(--card); border: 1px solid var(--line); border-radius: 20px; padding: 28px; box-shadow: 0 8px 30px rgba(30, 42, 34, 0.06); }
 
-.dietFilterBand { background: var(--card); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); padding: 24px; }
-.dietFilterInner { max-width: 760px; margin: 0 auto; }
 .toggleRowWide { flex-wrap: wrap; }
 .toggleBtnSmall { padding: 6px 12px; font-size: 12.5px; }
 .pantryToggle { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--muted); cursor: pointer; }
 .pantryGroup { margin-bottom: 16px; }
 .pantryGroupLabel { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: 0.4px; margin-bottom: 8px; }
 .pantrySelectedRow { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 18px; padding-bottom: 16px; border-bottom: 1px dashed var(--line); }
-@media (min-width: 901px) {
-  .dietFilterBand {
-    width: 100vw;
-    position: relative;
-    left: 50%;
-    right: 50%;
-    margin-left: -50vw;
-    margin-right: -50vw;
-    box-shadow: 0 4px 16px rgba(30, 42, 34, 0.05);
-  }
-  .dietFilterInner { max-width: 1180px; padding: 0 40px; }
-  .toggleRowWide:not(.toggleRowPantry) { flex-wrap: nowrap; }
-  .toggleRowWide:not(.toggleRowPantry) .toggleBtn { flex: 1; text-align: center; }
-}
 
 .tabBar { position: sticky; top: 0; z-index: 20; background: var(--paper); border-bottom: 1px solid var(--line); }
 .tabBarInner { max-width: 760px; margin: 0 auto; padding: 0 24px; display: flex; gap: 4px; overflow-x: auto; }
